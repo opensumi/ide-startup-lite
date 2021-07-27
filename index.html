@@ -28,10 +28,17 @@
       }
     </style>
     <link rel="stylesheet" href="<%- cdnBase %>main.css">
+    <script>
+      let savedColors = {};
+      try {
+        savedLayout = JSON.parse(localStorage.getItem('layout') || '{}');
+        savedColors = JSON.parse(localStorage.getItem('theme') || '{}');
+      } catch (err) {}
+      document.getElementsByTagName('html')[0].style.backgroundColor = savedColors.editorBackground || '#2a2a2a';
+    </script>
   </head>
   <body>
     <div id="main"></div>
-    <div id="loading">KAITIAN</div>
     <script src="<%- cdnBase %>bundle.js"></script>
   </body>
 </html>

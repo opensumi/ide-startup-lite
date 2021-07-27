@@ -49,7 +49,6 @@ renderApp({
   layoutComponent: LayoutComponent,
   useCdnIcon: true,
   noExtHost: true,
-  extWorkerHost: 'https://g.alicdn.com/tao-ide/o2-sandbox/0.0.5/worker.host.js',
   defaultPreferences: {
     'general.theme': 'ide-light',
     'general.icon': 'vsicons-slim',
