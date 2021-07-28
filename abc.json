@@ -1,0 +1,14 @@
+{
+  "assets": {
+      "type": "command",
+      "command": {
+          "cmd": [
+              "tnpm i",
+              "npm run build",
+              "npm run compile:ext-worker",
+              "rm ./dist/bundle.js.LICENSE.txt",
+              "mv ./dist $BUILD_DEST"
+          ]
+      }
+  }
+}
