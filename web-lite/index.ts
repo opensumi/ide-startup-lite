@@ -1,8 +1,8 @@
 import { Provider, Injectable } from '@ali/common-di';
 import { BrowserModule, LogServiceForClientPath } from '@ali/ide-core-browser';
-import { CommonServerPath } from '@ali/ide-core-common';
+import { CommonServerPath, KeytarServicePath } from '@ali/ide-core-common';
 import { ExtensionNodeServiceServerPath } from '@ali/ide-kaitian-extension/lib/common';
-import { FileSearchServicePath } from '@ali/ide-file-search';
+import { FileSearchServicePath } from '@ali/ide-file-search/lib/common';
 import { DebugPreferences } from '@ali/ide-debug/lib/browser';
 
 import { ExtensionClientService } from './extension';
@@ -15,8 +15,7 @@ import { TextmateLanguageGrammarContribution } from './grammar/index.contributio
 import { BrowserCommonServer } from './overrides/browser-common-server';
 import { MockFileSearch } from './overrides/mock-file-search';
 import { MockLogServiceForClient } from './overrides/mock-logger';
-import { HttpFileService } from './file-provider/http-file.service';
-import { AbstractHttpFileService } from './file-provider/browser-fs-provider';
+import { MockCredentialService } from './overrides/mock-credential.service';
 
 @Injectable()
 export class WebLiteModule extends BrowserModule {
@@ -24,10 +23,6 @@ export class WebLiteModule extends BrowserModule {
     {
       token: CommonServerPath,
       useClass: BrowserCommonServer,
-    },
-    {
-      token: AbstractHttpFileService,
-      useClass: HttpFileService,
     },
     {
       token: ExtensionNodeServiceServerPath,
@@ -40,6 +35,10 @@ export class WebLiteModule extends BrowserModule {
     {
       token: LogServiceForClientPath,
       useClass: MockLogServiceForClient,
+    },
+    {
+      token: KeytarServicePath,
+      useClass: MockCredentialService,
     },
     {
       token: DebugPreferences,

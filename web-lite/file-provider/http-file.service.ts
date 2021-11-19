@@ -33,7 +33,6 @@ export class HttpFileService extends AbstractHttpFileService {
 
   constructor() {
     super();
-    this.initWorkspace(Uri.file(this.appConfig.workspaceDir!));
   }
 
   initWorkspace(uri: Uri): {[filename: string]: string} {

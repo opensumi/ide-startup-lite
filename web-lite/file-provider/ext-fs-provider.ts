@@ -1,5 +1,5 @@
 import { Injectable } from '@ali/common-di';
-import { Uri, Event } from '@ali/ide-core-browser';
+import { Uri, Event, FileSystemProviderCapabilities, Emitter } from '@ali/ide-core-browser';
 import { BinaryBuffer } from '@ali/ide-core-common/lib/utils/buffer';
 import { FileSystemProvider, FileStat, FileType, FileChangeEvent } from '@ali/ide-file-service';
 
@@ -8,6 +8,9 @@ import { FileSystemProvider, FileStat, FileType, FileChangeEvent } from '@ali/id
  */
 @Injectable()
 export class KaitianExtFsProvider implements FileSystemProvider {
+  capabilities: FileSystemProviderCapabilities = 2048;
+  onDidChangeCapabilities: Event<void> = new Emitter<void>().event;
+  readonly?: boolean | undefined;
   onDidChangeFile: Event<FileChangeEvent>;
   watch(uri: Uri, options: { recursive: boolean; excludes: string[]; }): number {
     throw new Error('Method not implemented.');

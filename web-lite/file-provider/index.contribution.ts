@@ -4,6 +4,7 @@ import {
   URI,
   FsProviderContribution,
   AppConfig,
+  Uri,
 } from '@ali/ide-core-browser';
 import { Path } from '@ali/ide-core-common/lib/path';
 import { BrowserFsProvider, AbstractHttpFileService } from './browser-fs-provider';
@@ -13,6 +14,7 @@ import { StaticResourceContribution, StaticResourceService } from '@ali/ide-stat
 import { IWorkspaceService } from '@ali/ide-workspace';
 
 import { KaitianExtFsProvider } from './ext-fs-provider';
+import { HttpFileService } from './http-file.service';
 
 const EXPRESS_SERVER_PATH = window.location.href;
 
@@ -24,7 +26,7 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
   private readonly fileSystem: FileServiceClient;
 
   @Autowired(AbstractHttpFileService)
-  private httpImpl: AbstractHttpFileService;
+  private httpImpl: HttpFileService;
 
   @Autowired(AppConfig)
   private readonly appConfig: AppConfig;
@@ -35,9 +37,11 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
   @Autowired()
   private readonly ktExtFsProvider: KaitianExtFsProvider;
 
+  onFileServiceReady() {
+    this.httpImpl.initWorkspace(Uri.file(this.appConfig.workspaceDir!));
+  }
+
   registerProvider(registry: IFileServiceClient) {
-    // 处理 file 协议的文件部分
-    registry.registerProvider('file', new BrowserFsProvider(this.httpImpl, { rootFolder: this.appConfig.workspaceDir }));
     registry.registerProvider('kt-ext', this.ktExtFsProvider);
   }
 

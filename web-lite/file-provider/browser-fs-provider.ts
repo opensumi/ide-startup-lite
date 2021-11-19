@@ -1,5 +1,5 @@
 import { IDiskFileProvider, FileChangeEvent, FileStat, FileType, FileSystemError, notEmpty, isErrnoException } from '@ali/ide-file-service/lib/common';
-import { Event, URI, FileUri, Uri, Emitter, FileChangeType } from '@ali/ide-core-common';
+import { Event, URI, FileUri, Uri, Emitter, FileChangeType, FileSystemProviderCapabilities } from '@ali/ide-core-common';
 import { Path } from '@ali/ide-core-common/lib/path';
 import { promisify } from '@ali/ide-core-common/lib/browser-fs/util';
 import { ensureDir } from '@ali/ide-core-common/lib/browser-fs/ensure-dir';
@@ -71,6 +71,11 @@ export class BrowserFsProvider implements IDiskFileProvider {
 
   }
 
+  capabilities: FileSystemProviderCapabilities = 2048;
+  onDidChangeCapabilities: Event<void> = new Emitter<void>().event;
+
+  readonly?: boolean | undefined;
+
   watch(uri: Uri, options: { recursive: boolean; excludes: string[]; }): number {
     // TODO: shall we implement this method?
     return 0;
@@ -108,10 +113,6 @@ export class BrowserFsProvider implements IDiskFileProvider {
   }
   async createDirectory(uri: Uri): Promise<FileStat> {
     const _uri = new URI(uri);
-    // FIXME: 临时兼容，框架 2.7.3 BUG
-    if (_uri.path.toString() === '/home/.kaitian/datas/') {
-      return {} as any;
-    }
     const stat = await this.doGetStat(_uri, 0);
     if (stat) {
       if (stat.isDirectory) {
