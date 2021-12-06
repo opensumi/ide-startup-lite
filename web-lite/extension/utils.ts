@@ -1,7 +1,7 @@
-import { IExtensionContributions } from '@ali/ide-kaitian-extension/lib/common/vscode/extension';
-import { IKaitianExtensionContributions } from '@ali/ide-kaitian-extension/lib/common/kaitian/extension';
-import { IExtensionMetaData } from '@ali/ide-kaitian-extension/lib/common';
-import { Uri, asArray } from '@ali/ide-core-common';
+import { IExtensionContributions } from '@opensumi/ide-extension/lib/common/vscode/extension';
+import { IKaitianExtensionContributions } from '@opensumi/ide-extension/lib/common/kaitian/extension';
+import { IExtensionMetaData } from '@opensumi/ide-extension/lib/common';
+import { Uri, asArray } from '@opensumi/ide-core-common';
 import { mergeWith } from 'lodash';
 
 export function mergeContributes(

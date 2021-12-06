@@ -1,8 +1,8 @@
 import type * as vscode from 'vscode';
-import { Autowired, Injectable } from '@ali/common-di';
-import { URI, Uri } from '@ali/ide-core-common';
-import { Position, Range, Location } from '@ali/ide-kaitian-extension/lib/common/vscode/ext-types';
-import { IWorkspaceService } from '@ali/ide-workspace';
+import { Autowired, Injectable } from '@opensumi/di';
+import { URI, Uri } from '@opensumi/ide-core-common';
+import { Position, Range, Location } from '@opensumi/ide-extension/lib/common/vscode/ext-types';
+import { IWorkspaceService } from '@opensumi/ide-workspace';
 
 import { ILsifPayload } from './base';
 

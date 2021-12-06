@@ -1,12 +1,12 @@
-import '@ali/ide-i18n/lib/browser';
-import { SlotLocation } from '@ali/ide-core-browser';
+import '@opensumi/ide-i18n/lib/browser';
+import { SlotLocation } from '@opensumi/ide-core-browser';
 import * as React from 'react';
 
 import { CommonBrowserModules } from './common-modules';
 import { renderApp } from './render-app';
 
 // 引入公共样式文件
-import '@ali/ide-core-browser/lib/style/index.less';
+import '@opensumi/ide-core-browser/lib/style/index.less';
 
 import { WebLiteModule }  from './web-lite';
 
@@ -18,22 +18,22 @@ import { LayoutComponent } from './custom-layout-component';
 // 视图和slot插槽的对应关系
 const layoutConfig = {
   [SlotLocation.top]: {
-    modules: ['@ali/ide-menu-bar'],
+    modules: ['@opensumi/ide-menu-bar'],
   },
   [SlotLocation.action]: {
     modules: [''],
   },
   [SlotLocation.left]: {
-    modules: ['@ali/ide-explorer', 'test-view'],
+    modules: ['@opensumi/ide-explorer', 'test-view'],
   },
   [SlotLocation.main]: {
-    modules: ['@ali/ide-editor'],
+    modules: ['@opensumi/ide-editor'],
   },
   [SlotLocation.statusBar]: {
-    modules: ['@ali/ide-status-bar'],
+    modules: ['@opensumi/ide-status-bar'],
   },
   [SlotLocation.bottom]: {
-    modules: ['@ali/ide-output'],
+    modules: ['@opensumi/ide-output'],
   },
   [SlotLocation.extra]: {
     modules: [],

@@ -1,4 +1,4 @@
-import { Autowired, Injectable } from '@ali/common-di';
+import { Autowired, Injectable } from '@opensumi/di';
 import type * as vscode from 'vscode';
 
 import { ILsifService, ILsifPayload } from './base';

@@ -1,5 +1,5 @@
-import { Injectable } from "@ali/common-di";
-import { INativeCredentialService } from "@ali/ide-core-common/lib/credential";
+import { Injectable } from "@opensumi/di";
+import { INativeCredentialService } from "@opensumi/ide-core-common/lib/credential";
 
 @Injectable()
 export class MockCredentialService implements INativeCredentialService {

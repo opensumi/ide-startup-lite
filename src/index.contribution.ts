@@ -1,9 +1,9 @@
-import { Autowired } from '@ali/common-di';
-import { Domain, ComponentContribution, ComponentRegistry, getIcon, CommandContribution, CommandRegistry, ClientAppContribution, Command, URI, CommandService, TabBarToolbarContribution, IToolbarRegistry, ToolbarRegistry } from '@ali/ide-core-browser';
-import { IStatusBarService } from '@ali/ide-status-bar';
-import { IWorkspaceService } from '@ali/ide-workspace';
-import { IFileServiceClient } from '@ali/ide-file-service';
-import { IMainLayoutService } from '@ali/ide-main-layout';
+import { Autowired } from '@opensumi/di';
+import { Domain, ComponentContribution, ComponentRegistry, getIcon, CommandContribution, CommandRegistry, ClientAppContribution, Command, URI, CommandService, TabBarToolbarContribution, IToolbarRegistry, ToolbarRegistry } from '@opensumi/ide-core-browser';
+import { IStatusBarService } from '@opensumi/ide-status-bar';
+import { IWorkspaceService } from '@opensumi/ide-workspace';
+import { IFileServiceClient } from '@opensumi/ide-file-service';
+import { IMainLayoutService } from '@opensumi/ide-main-layout';
 import { TestView } from './index.view';
 
 const REFRESH: Command = {

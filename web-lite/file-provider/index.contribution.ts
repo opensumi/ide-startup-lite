@@ -1,17 +1,17 @@
-import { Autowired } from '@ali/common-di';
+import { Autowired } from '@opensumi/di';
 import {
   Domain,
   URI,
   FsProviderContribution,
   AppConfig,
   Uri,
-} from '@ali/ide-core-browser';
-import { Path } from '@ali/ide-core-common/lib/path';
+} from '@opensumi/ide-core-browser';
+import { Path } from '@opensumi/ide-core-common/lib/path';
 import { BrowserFsProvider, AbstractHttpFileService } from './browser-fs-provider';
-import { IFileServiceClient } from '@ali/ide-file-service';
-import { FileServiceClient } from '@ali/ide-file-service/lib/browser/file-service-client';
-import { StaticResourceContribution, StaticResourceService } from '@ali/ide-static-resource/lib/browser/static.definition';
-import { IWorkspaceService } from '@ali/ide-workspace';
+import { IFileServiceClient } from '@opensumi/ide-file-service';
+import { FileServiceClient } from '@opensumi/ide-file-service/lib/browser/file-service-client';
+import { StaticResourceContribution, StaticResourceService } from '@opensumi/ide-static-resource/lib/browser/static.definition';
+import { IWorkspaceService } from '@opensumi/ide-workspace';
 
 import { KaitianExtFsProvider } from './ext-fs-provider';
 import { HttpFileService } from './http-file.service';

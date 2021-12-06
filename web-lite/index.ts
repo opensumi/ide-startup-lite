@@ -1,9 +1,9 @@
-import { Provider, Injectable } from '@ali/common-di';
-import { BrowserModule, LogServiceForClientPath } from '@ali/ide-core-browser';
-import { CommonServerPath, KeytarServicePath } from '@ali/ide-core-common';
-import { ExtensionNodeServiceServerPath } from '@ali/ide-kaitian-extension/lib/common';
-import { FileSearchServicePath } from '@ali/ide-file-search/lib/common';
-import { DebugPreferences } from '@ali/ide-debug/lib/browser';
+import { Provider, Injectable } from '@opensumi/di';
+import { BrowserModule, LogServiceForClientPath } from '@opensumi/ide-core-browser';
+import { CommonServerPath, KeytarServicePath } from '@opensumi/ide-core-common';
+import { ExtensionNodeServiceServerPath } from '@opensumi/ide-extension/lib/common';
+import { FileSearchServicePath } from '@opensumi/ide-file-search/lib/common';
+import { DebugPreferences } from '@opensumi/ide-debug/lib/browser';
 
 import { ExtensionClientService } from './extension';
 import { FileProviderContribution } from './file-provider/index.contribution';

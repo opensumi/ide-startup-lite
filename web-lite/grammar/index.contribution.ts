@@ -1,8 +1,8 @@
-import { Autowired } from '@ali/common-di';
-import { Disposable, Domain } from '@ali/ide-core-common';
-import { ClientAppContribution } from '@ali/ide-core-browser';
-import type { loadLanguageAndGrammar } from '@ali/kaitian-textmate-languages';
-import { ITextmateTokenizer, ITextmateTokenizerService } from '@ali/ide-monaco/lib/browser/contrib/tokenizer';
+import { Autowired } from '@opensumi/di';
+import { Disposable, Domain } from '@opensumi/ide-core-common';
+import { ClientAppContribution } from '@opensumi/ide-core-browser';
+import type { loadLanguageAndGrammar } from '@opensumi/textmate-languages';
+import { ITextmateTokenizer, ITextmateTokenizerService } from '@opensumi/ide-monaco/lib/browser/contrib/tokenizer';
 
 const languages = [
   'html',
@@ -24,7 +24,7 @@ export class TextmateLanguageGrammarContribution extends Disposable implements C
   async initialize() {
     // languages/grammars registration
     for (const language of languages) {
-      const mod = require(`@ali/kaitian-textmate-languages/lib/${language}`);
+      const mod = require(`@opensumi/textmate-languages/lib/${language}`);
       const loadLanguage: loadLanguageAndGrammar =
         'default' in mod ? mod.default : mod;
       const registrationPromise = loadLanguage(
