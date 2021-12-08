@@ -14,6 +14,10 @@ const mockFiles = [
   {
     path: 'README.md',
     content: '# Hello world\ntry edit this file and save'
+  },
+  {
+    path: 'sample.json',
+    content: '{"hello": "world"}',
   }
 ]
 

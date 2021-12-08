@@ -58,7 +58,7 @@
     "@opensumi/ide-webview": "2.12.1-next-079c1930",
     "@opensumi/ide-workspace": "2.12.1-next-079c1930",
     "@opensumi/ide-workspace-edit": "2.12.1-next-079c1930",
-    "@opensumi/textmate-languages": "^2.3.0",
+    "@opensumi/textmate-languages": "^2.6.0-beta.0",
     "browserfs": "^1.4.3",
     "classnames": "^2.3.1",
     "md5": "^2.3.0",
