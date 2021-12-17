@@ -4,10 +4,10 @@ import { BinaryBuffer } from '@opensumi/ide-core-common/lib/utils/buffer';
 import { FileSystemProvider, FileStat, FileType, FileChangeEvent } from '@opensumi/ide-file-service';
 
 /**
- * 解析 kt-ext:// 文件，解决前端插件加载问题
+ * 解析 ext:// 文件，解决前端插件加载问题
  */
 @Injectable()
-export class KaitianExtFsProvider implements FileSystemProvider {
+export class ExtFsProvider implements FileSystemProvider {
   capabilities: FileSystemProviderCapabilities = 2048;
   onDidChangeCapabilities: Event<void> = new Emitter<void>().event;
   readonly?: boolean | undefined;

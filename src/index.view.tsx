@@ -2,6 +2,6 @@ import * as React from 'react';
 
 export const TestView = () => {
   return <div>
-    <p>Hello KAITIAN Lite!</p>
+    <p>Hello SUMI Lite!</p>
   </div>
 };

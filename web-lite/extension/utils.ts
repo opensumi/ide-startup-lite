@@ -1,22 +1,22 @@
 import { IExtensionContributions } from '@opensumi/ide-extension/lib/common/vscode/extension';
-import { IKaitianExtensionContributions } from '@opensumi/ide-extension/lib/common/kaitian/extension';
 import { IExtensionMetaData } from '@opensumi/ide-extension/lib/common';
 import { Uri, asArray } from '@opensumi/ide-core-common';
 import { mergeWith } from 'lodash';
+import { ISumiExtensionContributions } from '@opensumi/ide-extension/lib/common/sumi/extension';
 
 export function mergeContributes(
   contributes: IExtensionContributions | undefined,
-  kaitianContributes: IKaitianExtensionContributions | undefined,
-): IKaitianExtensionContributions {
+  sumiContributes: ISumiExtensionContributions | undefined,
+): ISumiExtensionContributions {
   if (contributes === undefined) {
-    return kaitianContributes || {};
+    return sumiContributes || {};
   }
 
-  if (kaitianContributes === undefined) {
+  if (sumiContributes === undefined) {
     return contributes || {};
   }
 
-  return mergeWith(kaitianContributes, contributes, (value, srcValue, key, object, source) => {
+  return mergeWith(sumiContributes, contributes, (value, srcValue, key, object, source) => {
     if (value === undefined || srcValue === undefined) {
       return value || srcValue;
     }
@@ -44,7 +44,7 @@ export function mergeContributes(
 }
 
 export async function getExtension(extensionId: string, version: string): Promise<IExtensionMetaData | undefined> {
-  const extPath = `alipay-rmsdeploy-image.cn-hangzhou.alipay.aliyun-inc.com/marketplace/assets/${extensionId}/v${version}/extension/`;
+  const extPath = `gw.alipayobjects.com/os/marketplace/assets/${extensionId}/v${version}/extension/`;
   const packageJSON = await fetch(`http://${extPath}package.json`)
     .then((res) => res.json());
   // merge for `kaitianContributes` and `contributes`
@@ -53,7 +53,7 @@ export async function getExtension(extensionId: string, version: string): Promis
     packageJSON.contributes,
   );
 
-  const extensionPath = 'kt-ext://' + extPath;
+  const extensionPath = 'ext://' + extPath;
   const extension = {
     // vscode 规范
     id: `${packageJSON.publisher}.${packageJSON.name}`,

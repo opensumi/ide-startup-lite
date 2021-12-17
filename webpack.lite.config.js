@@ -8,13 +8,12 @@ const path = require('path');
 const darkTheme = require('@ant-design/dark-theme');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const fs = require('fs');
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 const dir = path.resolve('.')
 const port = 8080;
 
-const isDevelopment = process.env['NODE_ENV'] === 'development' || process.env['NODE_ENV'] === 'dev';
+const isDevelopment = process.env['NODE_ENV'] === undefined || process.env['NODE_ENV'] === 'development' || process.env['NODE_ENV'] === 'dev';
 if (isDevelopment) {
   require('dotenv').config();
 }
@@ -22,8 +21,6 @@ if (isDevelopment) {
 const styleLoader = process.env.NODE_ENV === 'production'
   ? MiniCssExtractPlugin.loader
   : 'style-loader';
-
-const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 
 module.exports = {
   entry: dir + '/app',
@@ -181,10 +178,8 @@ module.exports = {
     contentBase: dir + '/dist',
     port,
     host: '127.0.0.1',
-    https: protocol === 'https' ? {
-      key: fs.readFileSync('/Users/louis/http-server-ssl/key.pem'),
-      cert: fs.readFileSync('/Users/louis/http-server-ssl/cert.pem'),
-    } : false,
+    hot: true,
+    https: false,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",

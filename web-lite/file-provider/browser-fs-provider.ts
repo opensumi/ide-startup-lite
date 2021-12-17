@@ -287,7 +287,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
   protected async ensureFile(uri: URI) {
     // content为空读取远程
     const content = await this.httpFileService.readFile(uri.codeUri);
-    if (content || !uri.path.dir.toString().endsWith('.kaitian')) {
+    if (content || !uri.path.dir.toString().endsWith('.sumi')) {
       await this.ensureDir(uri.path.dir.toString());
       // workspaceDir 要带版本号信息(ref)，保证本地存储和版本号是对应的
       content && await promisify(fs.writeFile)(FileUri.fsPath(uri), content);

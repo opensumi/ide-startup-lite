@@ -13,7 +13,7 @@ import { FileServiceClient } from '@opensumi/ide-file-service/lib/browser/file-s
 import { StaticResourceContribution, StaticResourceService } from '@opensumi/ide-static-resource/lib/browser/static.definition';
 import { IWorkspaceService } from '@opensumi/ide-workspace';
 
-import { KaitianExtFsProvider } from './ext-fs-provider';
+import { ExtFsProvider } from './ext-fs-provider';
 import { HttpFileService } from './http-file.service';
 
 const EXPRESS_SERVER_PATH = window.location.href;
@@ -35,14 +35,14 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
   private readonly workspaceService: IWorkspaceService;
 
   @Autowired()
-  private readonly ktExtFsProvider: KaitianExtFsProvider;
+  private readonly ktExtFsProvider: ExtFsProvider;
 
   onFileServiceReady() {
     this.httpImpl.initWorkspace(Uri.file(this.appConfig.workspaceDir!));
   }
 
   registerProvider(registry: IFileServiceClient) {
-    registry.registerProvider('kt-ext', this.ktExtFsProvider);
+    registry.registerProvider('ext', this.ktExtFsProvider);
   }
 
   registerStaticResolver(service: StaticResourceService): void {
@@ -69,9 +69,9 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
     });
     // 插件静态资源路径
     service.registerStaticResourceProvider({
-      scheme: 'kt-ext',
+      scheme: 'ext',
       resolveStaticResource: (uri: URI) => {
-        // kt-ext 协议统一走 scheme 头转换为 https
+        // ext 协议统一走 scheme 头转换为 https
         return uri.withScheme('https');
       },
       roots: [this.appConfig.staticServicePath || EXPRESS_SERVER_PATH],

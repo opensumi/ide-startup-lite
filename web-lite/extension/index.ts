@@ -4,13 +4,13 @@ import { IExtensionNodeClientService, IExtraMetaData, IExtensionMetaData } from 
 import { getExtension } from './utils';
 
 const extensionList = [
-  { id: 'kaitian.vsicons-slim', version: '1.0.4' },
-  { id: 'kaitian.ide-dark-theme', version: '2.4.0' },
-  { id: 'alex.typescript-language-features-worker', version: '1.0.0-beta.2' },
-  { id: 'alex.markdown-language-features-worker', version: '1.0.0-beta.2' },
-  { id: 'alex.html-language-features-worker', version: '1.0.0-beta.1' },
-  { id: 'alex.json-language-features-worker', version: '1.0.0-beta.1' },
-  { id: 'alex.css-language-features-worker', version: '1.0.0-beta.1' },
+  { id: 'alex-ext-public.typescript-language-features-worker', version: '1.53.0-patch.3' },
+  { id: 'alex-ext-public.markdown-language-features-worker', version: '1.53.0-patch.1' },
+  { id: 'alex-ext-public.html-language-features-worker', version: '1.53.0-patch.1' },
+  { id: 'alex-ext-public.json-language-features-worker', version: '1.53.0-patch.1' },
+  { id: 'alex-ext-public.css-language-features-worker', version: '1.53.0-patch.1' },
+  { id: 'alex-ext-public.vsicons-slim', version: '1.0.5' },
+  { id: 'worker-public.ide-ext-theme', version: '2.5.2' },
 ];
 
 export const getExtensions: () => Promise<IExtensionMetaData[]> = () => {
@@ -20,6 +20,9 @@ export const getExtensions: () => Promise<IExtensionMetaData[]> = () => {
 
 @Injectable()
 export class ExtensionClientService implements IExtensionNodeClientService {
+  restartExtProcessByClient(): void {
+    throw new Error('Method not implemented.');
+  }
   getElectronMainThreadListenPath(clientId: string): Promise<string> {
     throw new Error('Method not implemented.');
   }
