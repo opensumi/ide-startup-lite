@@ -45,7 +45,7 @@ export function mergeContributes(
 
 export async function getExtension(extensionId: string, version: string): Promise<IExtensionMetaData | undefined> {
   const extPath = `gw.alipayobjects.com/os/marketplace/assets/${extensionId}/v${version}/extension/`;
-  const packageJSON = await fetch(`http://${extPath}package.json`)
+  const packageJSON = await fetch(`https://${extPath}package.json`)
     .then((res) => res.json());
   // merge for `kaitianContributes` and `contributes`
   packageJSON.contributes = mergeContributes(
