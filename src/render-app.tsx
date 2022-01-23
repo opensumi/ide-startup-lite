@@ -13,9 +13,6 @@ export async function renderApp(opts: IClientAppOpts) {
   opts.injector = injector;
 
   opts.workspaceDir = opts.workspaceDir || process.env.WORKSPACE_DIR;
-  // 跟后端通信部分配置，需要解耦
-  opts.extensionDir = opts.extensionDir || process.env.EXTENSION_DIR;
-  opts.wsPath =  process.env.WS_PATH || 'ws://127.0.0.1:8000';
   opts.extWorkerHost = opts.extWorkerHost || process.env.EXTENSION_WORKER_HOST || 'http://localhost:8080/worker.host.js';
   opts.webviewEndpoint = opts.webviewEndpoint || `http://localhost:50998`;
 
