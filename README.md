@@ -15,7 +15,7 @@ $ npm run start         # 启动
 
 启动后访问 8080 端口即可预览 IDE。
 
-![截图](https://img.alicdn.com/imgextra/i4/O1CN01W0RcLw1Mb3mZBWLjS_!!6000000001452-2-tps-3104-1974.png)
+[![截图](https://img.alicdn.com/imgextra/i4/O1CN01W0RcLw1Mb3mZBWLjS_!!6000000001452-2-tps-3104-1974.png)](https://opensumi.github.io/ide-startup-lite/)
 
 距离一个完整可用的纯前端版 IDE 还需要以下实现：
 * 文件服务配置 *（必选）
