@@ -4,7 +4,7 @@ import { IStatusBarService } from '@opensumi/ide-status-bar';
 import { IWorkspaceService } from '@opensumi/ide-workspace';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { IMainLayoutService } from '@opensumi/ide-main-layout';
-import { TestView } from './index.view';
+import { TestView, TestView2 } from './index.view';
 
 const REFRESH: Command = {
   id: 'test.refresh',
@@ -29,6 +29,13 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
 
   onDidStart() {
     this.layoutService.toggleSlot('right', true, 500);
+    this.layoutService.collectViewComponent({
+      id: 'test-accordion-view',
+      name: 'HelloView',
+      component: TestView2,
+      priority: 1,
+      weight: 2,
+    }, 'explorer', {name: 'OpenSumi'})
   }
 
   registerToolbarItems(registry: ToolbarRegistry) {

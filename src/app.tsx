@@ -7,10 +7,12 @@ import { renderApp } from './render-app';
 
 // 引入公共样式文件
 import '@opensumi/ide-core-browser/lib/style/index.less';
+// antd opensumi 样式文件，如果你不需要使用antd组件，请移除
+import '@opensumi/antd-theme/lib/index.css';
 
-import { WebLiteModule }  from './web-lite';
+import { WebLiteModule }  from '../web-lite';
 
-import { SampleModule } from './src';
+import { SampleModule } from './module';
 
 import './styles.less';
 import { LayoutComponent } from './custom-layout-component';

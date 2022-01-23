@@ -27,7 +27,7 @@ import { WebviewModule } from '@opensumi/ide-webview/lib/browser';
 import { OutputModule } from '@opensumi/ide-output/lib/browser';
 import { OutlineModule } from '@opensumi/ide-outline/lib/browser';
 
-import { BrowserFileSchemeModule } from './web-lite/overrides/browser-file-scheme';
+import { BrowserFileSchemeModule } from '../web-lite/overrides/browser-file-scheme';
 
 export const CommonBrowserModules: ConstructorOf<BrowserModule>[] = [
   FileServiceClientModule,

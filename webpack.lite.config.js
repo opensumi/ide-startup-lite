@@ -23,7 +23,7 @@ const styleLoader = process.env.NODE_ENV === 'production'
   : 'style-loader';
 
 module.exports = {
-  entry: dir + '/app',
+  entry: dir + '/src/app',
   node: {
     net: "empty",
     child_process: "empty",
@@ -149,18 +149,14 @@ module.exports = {
       template: __dirname + '/index.html',
       inject: false,
       templateParameters: {
-        cdnBase: isDevelopment ? '' : `https://g.alicdn.com/tao-ide/ide-lite/0.0.3/`,
+        cdnBase: isDevelopment ? '' : `__PLEASE_CHANGE_THIS__`,
       }
     }),
-
     new MiniCssExtractPlugin({
       filename: 'main.css'
     }),
     new webpack.DefinePlugin({
       'process.env.DEVELOPMENT': JSON.stringify(!!isDevelopment),
-      'process.env.SCM_PLATFORM': JSON.stringify(process.env.SCM_PLATFORM),
-      'process.env.LSIF_HOST': JSON.stringify(process.env.LSIF_HOST),
-      'process.env.PROJECT_ID': JSON.stringify(process.env.SCM_PLATFORM === 'aone' ? '1812048' : '122688')
     }),
     new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' }),
     new FriendlyErrorsWebpackPlugin({
@@ -170,9 +166,6 @@ module.exports = {
       // onErrors: utils.createNotifierCallback(),
       clearConsole: true,
     }),
-    new CopyPlugin([
-      { from: path.join(__dirname, './src/vendor'), to: dir + '/dist' },
-    ]),
   ],
   devServer: {
     contentBase: dir + '/dist',

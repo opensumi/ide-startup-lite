@@ -9,6 +9,7 @@
     "compile:ext-worker": "NODE_ENV=production webpack --config=webpack.worker.config.js --progress"
   },
   "dependencies": {
+    "@opensumi/antd-theme": "^1.0.1",
     "@opensumi/di": "^1.0.0",
     "@opensumi/ide-addons": "^2.13.0",
     "@opensumi/ide-comments": "^2.13.0",
@@ -59,6 +60,7 @@
     "@opensumi/ide-workspace": "^2.13.0",
     "@opensumi/ide-workspace-edit": "^2.13.0",
     "@opensumi/textmate-languages": "^2.6.1",
+    "antd": "^4.18.4",
     "browserfs": "^1.4.3",
     "classnames": "^2.3.1",
     "md5": "^2.3.0",

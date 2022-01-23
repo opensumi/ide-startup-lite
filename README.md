@@ -8,9 +8,9 @@ OpenSumi 提供了纯前端版本的接入能力，可以让你脱离 node 的�
 ```shell
 $ git clone https://github.com/opensumi/ide-startup-lite.git
 $ cd ide-startup-lite
-$ tnpm install                  # 安装依赖
-$ tnpm run compile:ext-worker   # 编译 webworker 插件环境
-$ tnpm run start         # 启动
+$ npm install                  # 安装依赖
+$ npm run compile:ext-worker   # 编译 webworker 插件环境
+$ npm run start         # 启动
 ```
 
 启动后访问 8080 端口即可预览 IDE。
@@ -41,7 +41,7 @@ $ tnpm run start         # 启动
 # 插件声明
 纯前端环境下由于没有文件系统，无法通过插件扫描的逻辑获取已安装插件的列表及其对应的详细信息，需要提前在集成时进行声明。
 
-纯前端插件在上架插件市场时，会自动同步一份需要的资源到 oss 上（需要开启配置`{ “enableOpenSumiWebAssets”: true }`）。因此在内网环境下，要使用上传到插件市场的插件，只需要在插件列表里声明目标插件的 id 和版本即可，剩余逻辑已被抹平：
+纯前端插件在上架插件市场时，会自动同步一份需要的资源到 oss 上（需要开启配置`{ “enableOpenSumiWebAssets”: true }`，开启后插件构建时会自动生成需要托管的目录列表文件 sumi-meta.json）。因此在内网环境下，要使用上传到插件市场的插件，只需要在插件列表里声明目标插件的 id 和版本即可，剩余逻辑已被抹平：
 
 > 文件位置：`web-lite/extension/index.ts`
 
@@ -53,7 +53,7 @@ const extensionList = [
 ];
 ```
 
-对于外网用户，可以将插件打包的资源自行上传到 oss 或 cdn 上，然后修改插件市场的 oss 基础路径为自定义路径即可。
+对于外网用户，可以将插件打包生成的需要托管的部分资源自行上传到 oss 或 cdn 上，然后修改插件市场的 oss 基础路径为自定义路径即可。
 
 # 语法高亮及代码提示
 ## 语法高亮

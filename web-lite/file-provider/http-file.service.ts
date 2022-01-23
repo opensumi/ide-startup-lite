@@ -25,6 +25,7 @@ const PathSeperator = '/';
 
 export type HttpTreeList = {path: string; content?: string; children: HttpTreeList}[];
 
+// NOTE: 一个内存文件读写的简单实现，集成时可以自行替换
 @Injectable()
 export class HttpFileService extends AbstractHttpFileService {
 

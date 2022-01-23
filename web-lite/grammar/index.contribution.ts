@@ -4,6 +4,7 @@ import { ClientAppContribution } from '@opensumi/ide-core-browser';
 import { ITextmateTokenizer, ITextmateTokenizerService } from '@opensumi/ide-monaco/lib/browser/contrib/tokenizer';
 import { getLanguageById } from '@opensumi/textmate-languages/es/utils';
 
+// NOTE: 默认启用的语法，可以按需修改
 const languages = [
   'html',
   'css',
