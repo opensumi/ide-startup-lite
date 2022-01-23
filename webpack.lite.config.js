@@ -149,7 +149,7 @@ module.exports = {
       template: __dirname + '/index.html',
       inject: false,
       templateParameters: {
-        cdnBase: isDevelopment ? '' : `__PLEASE_CHANGE_THIS__`,
+        cdnBase: isDevelopment ? '' : '/ide-startup-lite/',
       }
     }),
     new MiniCssExtractPlugin({
@@ -157,6 +157,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.DEVELOPMENT': JSON.stringify(!!isDevelopment),
+      'process.env.EXTENSION_WORKER_HOST': JSON.stringify(process.env.GITHUB_WORKFLOW ? 'https://opensumi.github.io/ide-startup-lite/worker.host.js' : '')
     }),
     new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' }),
     new FriendlyErrorsWebpackPlugin({
