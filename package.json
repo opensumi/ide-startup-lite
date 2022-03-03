@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.lite.config.js",
-    "build": "NODE_ENV=production webpack --config webpack.lite.config.js",
-    "compile:ext-worker": "NODE_ENV=production webpack --config=webpack.worker.config.js --progress"
+    "build": "cross-env NODE_ENV=production webpack --config webpack.lite.config.js --progress",
+    "compile:ext-worker": "cross-env NODE_ENV=production webpack --config=webpack.worker.config.js --progress"
   },
   "dependencies": {
     "@opensumi/antd-theme": "^1.0.1",
@@ -84,6 +84,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
     "copy-webpack-plugin": "^5.0.3",
+    "cross-env": "^7.0.3",
     "css-loader": "^2.1.1",
     "dotenv": "^8.1.0",
     "file-loader": "^3.0.1",
