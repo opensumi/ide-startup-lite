@@ -1,5 +1,5 @@
 import { Injector } from '@opensumi/di';
-import { ClientApp, IClientAppOpts, DEFAULT_WORKSPACE_STORAGE_DIR_NAME, Uri } from '@opensumi/ide-core-browser';
+import { ClientApp, IClientAppOpts, DEFAULT_WORKSPACE_STORAGE_DIR_NAME, StoragePaths, isWindows } from '@opensumi/ide-core-browser';
 import { ensureDir } from '@opensumi/ide-core-common/lib/browser-fs/ensure-dir';
 import { AbstractHttpFileService, BrowserFsProvider, BROWSER_HOME_DIR } from '../web-lite/file-provider/browser-fs-provider';
 import * as BrowserFS from 'browserfs';
@@ -35,9 +35,8 @@ export async function renderApp(opts: IClientAppOpts) {
       // '/home': { fs: "LocalStorage", options: {} },
     }
   }, async function (e) {
-    await ensureDir(opts.workspaceDir!);
-    await ensureDir(BROWSER_HOME_DIR.codeUri.fsPath);
-    await ensureDir(BROWSER_HOME_DIR.path.join(DEFAULT_WORKSPACE_STORAGE_DIR_NAME).toString());
+    await setupAppDataDir(opts.workspaceDir!);
+
     const app = new ClientApp(opts);
     app.fireOnReload = (forcedReload: boolean) => {
       window.location.reload();
@@ -56,4 +55,21 @@ export async function renderApp(opts: IClientAppOpts) {
       loadingDom.remove();
     }
   });
+}
+
+async function setupAppDataDir(workspaceDir: string) {
+  await ensureDir(workspaceDir);
+  await ensureDir(BROWSER_HOME_DIR.codeUri.fsPath);
+
+  if (isWindows) {
+    await ensureDir(
+      BROWSER_HOME_DIR.path.join(
+        StoragePaths.WINDOWS_APP_DATA_DIR,
+        StoragePaths.WINDOWS_ROAMING_DIR,
+        DEFAULT_WORKSPACE_STORAGE_DIR_NAME,
+      ).toString(),
+    );
+  } else {
+    await ensureDir(BROWSER_HOME_DIR.path.join(DEFAULT_WORKSPACE_STORAGE_DIR_NAME).toString());
+  }
 }
