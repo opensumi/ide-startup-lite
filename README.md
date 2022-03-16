@@ -98,7 +98,7 @@ const languageExtensions = [
 
 ## Lsif 语法服务
 
-对于代码查看、Code review 这一类纯浏览场景，基于离线索引分析的 lsif 链接todo 方案可以很好的支持跨文件Hover 提示，代码跳转的需求，且不需要浏览器端承担任何额外的分析开销。OpenSumi 纯前端版集成了 lsif client，只需要简单的对接即可接入 lsif 服务：
+对于代码查看、Code review 这一类纯浏览场景，基于离线索引分析的 [LSIF 方案](https://microsoft.github.io/language-server-protocol/specifications/lsif/0.6.0/specification/) 可以很好的支持跨文件Hover 提示，代码跳转的需求，且不需要浏览器端承担任何额外的分析开销。OpenSumi 纯前端版集成了 lsif client，只需要简单的对接即可接入 lsif 服务：
 
 > 文件位置：`web-lite/language-service/lsif-service/lsif-client.ts`
 
