@@ -15,7 +15,10 @@ import { WebLiteModule }  from '../web-lite';
 import { SampleModule } from './module';
 
 import './styles.less';
+import '../web-lite/i18n'
 import { LayoutComponent } from './custom-layout-component';
+import { CodeAPIModule } from '../web-lite/code-api';
+import { parseUri, DEFAULT_URL } from '../web-lite/utils';
 
 // 视图和slot插槽的对应关系
 const layoutConfig = {
@@ -31,6 +34,9 @@ const layoutConfig = {
   [SlotLocation.main]: {
     modules: ['@opensumi/ide-editor'],
   },
+  [SlotLocation.right]: {
+    modules: [],
+  },
   [SlotLocation.statusBar]: {
     modules: ['@opensumi/ide-status-bar'],
   },
@@ -42,13 +48,17 @@ const layoutConfig = {
   },
 };
 
-// optional for sw registration
-// serviceWorker.register();
+// 请求 github 仓库地址 在hash上添加地址即可 如 http://0.0.0.0:8080/#https://github.com/opensumi/core
+// 支持分支及tag  如 http://0.0.0.0:8080/#https://github.com/opensumi/core/tree/v2.15.0
+
+const hash =
+  location.hash.startsWith('#') && location.hash.indexOf('github') > -1 ? location.hash.split('#')[1] : DEFAULT_URL;
+
+const { platform, owner, name, branch } = parseUri(hash);
 
 renderApp({
-  modules: [ ...CommonBrowserModules, WebLiteModule, SampleModule ],
+  modules: [WebLiteModule, ...CommonBrowserModules, SampleModule, CodeAPIModule],
   layoutConfig,
-  layoutComponent: LayoutComponent,
   useCdnIcon: true,
   noExtHost: true,
   defaultPreferences: {
@@ -60,16 +70,10 @@ renderApp({
     'editor.scrollBeyondLastLine': false,
     'general.language': 'en-US',
   },
-  workspaceDir: '/test',
-  extraContextProvider: (props) => <div id='#hi' style={{ width: '100%', height: '100%' }}>{props.children}</div>,
-  iconStyleSheets: [
-    {
-      iconMap: {
-        explorer: 'fanhui',
-        shangchuan: 'shangchuan',
-      },
-      prefix: 'tbe tbe-',
-      cssPath: '//at.alicdn.com/t/font_403404_1qiu0eed62f.css',
-    },
-  ],
+  workspaceDir: `/${platform}/${owner}/${name}`,
+  extraContextProvider: (props) => (
+    <div id='#hi' style={{ width: '100%', height: '100%' }}>
+      {props.children}
+    </div>
+  ),
 });

@@ -1,61 +1,87 @@
 import { Autowired, Injectable } from '@opensumi/di';
 import { URI, Uri, AppConfig } from '@opensumi/ide-core-browser';
+
+import {
+  ICodeAPIProvider,
+  ICodePlatform,
+  IRepositoryModel,
+  CodePlatform,
+  TreeEntry,
+} from '../code-api/common/types';
+import { DEFAULT_URL, parseUri } from '../utils';
+
 import { AbstractHttpFileService } from './browser-fs-provider';
 
-const mockFiles = [
-  {
-    path: 'src/index.js',
-    content: 'console.log("hello")',
-  },
-  {
-    path: 'src/app.js',
-    content: 'console.log("oho")',
-  },
-  {
-    path: 'README.md',
-    content: '# Hello world\ntry edit this file and save'
-  },
-  {
-    path: 'sample.json',
-    content: '{"hello": "world"}',
-  }
-]
-
 const PathSeperator = '/';
+const HEAD = 'HEAD';
 
-export type HttpTreeList = {path: string; content?: string; children: HttpTreeList}[];
+export type HttpTreeList = { path: string; content?: string; children: HttpTreeList }[];
 
 // NOTE: 一个内存文件读写的简单实现，集成时可以自行替换
 @Injectable()
 export class HttpFileService extends AbstractHttpFileService {
+  @Autowired(ICodeAPIProvider)
+  codeAPI: ICodeAPIProvider;
 
   @Autowired(AppConfig)
   private appConfig: AppConfig;
 
   private fileTree: HttpTreeList;
 
-  public fileMap: {[filename: string]: string};
+  public fileMap: { [filename: string]: TreeEntry };
+
+  public _repo: IRepositoryModel;
 
   constructor() {
     super();
   }
 
-  initWorkspace(uri: Uri): {[filename: string]: string} {
-    const map = {};
-    mockFiles.forEach((item) => {
-      map[item.path] = item.content;
+  async initWorkspace(uri: Uri): Promise<{ [filename: string]: TreeEntry }> {
+    const map: {
+      [filePath: string]: TreeEntry;
+    } = {};
+
+    const [, platform, owner, name] = uri.path.split('/');
+
+    this._repo = {
+      platform: platform as ICodePlatform,
+      owner,
+      name,
+      commit: '',
+    };
+
+    const hash =
+      location.hash.startsWith('#') && location.hash.indexOf('github') > -1 ? location.hash.split('#')[1] : DEFAULT_URL;
+    const { branch } = parseUri(hash);
+    const branches = await this.codeAPI.asPlatform(CodePlatform.github).getBranches(this._repo);
+    if (!branch) {
+      this._repo.commit = await this.codeAPI.asPlatform(CodePlatform.github).getCommit(this._repo, HEAD);
+    } else {
+      const originBranch = branches.find((b) => branch === b.name);
+      let originTag;
+      // 尝试查找tag
+      if (!originBranch) {
+        const tags = await this.codeAPI.asPlatform(CodePlatform.github).getTags(this._repo);
+        originTag = tags.find((t) => branch === t.name);
+      }
+      this._repo.commit = originBranch?.commit.id || originTag?.commit.id || '';
+    }
+    // TODO 不使用 recursive 递归接口直接查询
+    const tree = await this.codeAPI.asPlatform(CodePlatform.github).getTree(this._repo, '', 1);
+    tree.forEach((item) => {
+      map[item.path] = item;
     });
     this.fileMap = map;
     this.fileTree = this.pathToTree(this.fileMap);
     return this.fileMap;
   }
 
-  private pathToTree(files: {[filename: string]: string}) {
+  private pathToTree(files: { [filename: string]: TreeEntry }) {
     // // https://stackoverflow.com/questions/54424774/how-to-convert-an-array-of-paths-into-tree-object
     const result: HttpTreeList = [];
     // helper 的对象
     const accumulator = { __result__: result };
-    const filelist = Object.keys(files).map((path => ({path, content: files[path]})))
+    const filelist = Object.keys(files).map((path) => ({ path, content: files[path] }));
     filelist.forEach((file) => {
       const path = file.path!;
       // 初始的 accumulator 为 level
@@ -86,49 +112,50 @@ export class HttpFileService extends AbstractHttpFileService {
   async readFile(uri: Uri, encoding?: string): Promise<string> {
     const _uri = new URI(uri);
     const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
-    return this.fileMap[relativePath];
+    if (this.fileMap[relativePath].mode === 'new') {
+      return this.fileMap[relativePath].content || '';
+    }
+    const blob = await (
+      await this.codeAPI.asPlatform(CodePlatform.github).getBlob(this._repo, this.fileMap[relativePath])
+    ).toString();
+    return blob;
   }
 
   async readDir(uri: Uri) {
     const _uri = new URI(uri);
     const treeNode = this.getTargetTreeNode(_uri);
     const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
-    return (treeNode?.children || []).map(item => {
-      return {
-        ...item,
-        path: relativePath + PathSeperator + item.path,
-      };
-    })
+    return (treeNode?.children || []).map((item) => ({
+      ...item,
+      path: relativePath + PathSeperator + item.path,
+    }));
   }
 
   private getTargetTreeNode(uri: URI) {
     const relativePath = URI.file(this.appConfig.workspaceDir).relative(uri)!.toString();
     if (!relativePath) {
       // 根目录
-      return {children: this.fileTree, path: relativePath};
+      return { children: this.fileTree, path: relativePath };
     }
     const paths = relativePath.split(PathSeperator);
-    let targetNode: {path: string; content?: string; children: HttpTreeList} | undefined;
+    let targetNode: { path: string; content?: string; children: HttpTreeList } | undefined;
     let nodeList = this.fileTree;
     paths.forEach((path) => {
-      targetNode = nodeList.find(node => node.path === path);
+      targetNode = nodeList.find((node) => node.path === path);
       nodeList = targetNode?.children || [];
     });
     return targetNode;
   }
 
-  async updateFile(uri: Uri, content: string, options: { encoding?: string; newUri?: Uri; }): Promise<void> {
+  async updateFile(uri: Uri, content: string, options: { encoding?: string; newUri?: Uri }): Promise<void> {
     const _uri = new URI(uri);
     // TODO: sync update to remote logic
     const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
     if (options.newUri) {
-      const newRelativePath = URI.file(this.appConfig.workspaceDir).relative(new URI(options.newUri))!.toString();
-      this.fileMap[newRelativePath] = content;
       delete this.fileMap[relativePath];
       // TODO: 只更新对应节点，可以有更好的性能
       this.fileTree = this.pathToTree(this.fileMap);
     } else {
-      this.fileMap[relativePath] = content;
       const targetNode = this.getTargetTreeNode(_uri);
       if (!targetNode || targetNode.children.length > 0) {
         throw new Error('无法更新目标文件内容：目标未找到或为目录');
@@ -137,16 +164,26 @@ export class HttpFileService extends AbstractHttpFileService {
     }
   }
 
-  async createFile(uri: Uri, content: string, options: { encoding?: string; }) {
+  async createFile(uri: Uri, content: string, options: { encoding?: string }) {
     const _uri = new URI(uri);
     const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
     // TODO: sync create to remote logic
-    this.fileMap[relativePath] = content;
+    // mock file
+    if (this.fileMap[relativePath] === undefined) {
+      this.fileMap[relativePath] = {
+        name: relativePath,
+        mode: 'new',
+        type: 'blob',
+        id: relativePath,
+        path: relativePath,
+        content: '',
+      };
+    }
     // TODO: 性能优化
     this.fileTree = this.pathToTree(this.fileMap);
   }
 
-  async deleteFile(uri: Uri, options: { recursive: boolean, moveToTrash?: boolean }) {
+  async deleteFile(uri: Uri, options: { recursive: boolean; moveToTrash?: boolean }) {
     const _uri = new URI(uri);
     const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
     // TODO: sync delete to remote logic
@@ -159,5 +196,4 @@ export class HttpFileService extends AbstractHttpFileService {
     const path = URI.file(this.appConfig.workspaceDir).relative(uri)!.toString();
     return path;
   }
-
 }
