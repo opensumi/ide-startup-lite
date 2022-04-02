@@ -53,21 +53,31 @@ export class HttpFileService extends AbstractHttpFileService {
     const hash =
       location.hash.startsWith('#') && location.hash.indexOf('github') > -1 ? location.hash.split('#')[1] : DEFAULT_URL;
     const { branch } = parseUri(hash);
-    const branches = await this.codeAPI.asPlatform(CodePlatform.github).getBranches(this._repo);
-    if (!branch) {
-      this._repo.commit = await this.codeAPI.asPlatform(CodePlatform.github).getCommit(this._repo, HEAD);
-    } else {
-      const originBranch = branches.find((b) => branch === b.name);
-      let originTag;
-      // 尝试查找tag
-      if (!originBranch) {
-        const tags = await this.codeAPI.asPlatform(CodePlatform.github).getTags(this._repo);
-        originTag = tags.find((t) => branch === t.name);
+
+    try {
+      if (!branch) {
+        this._repo.commit = await this.codeAPI.asPlatform(CodePlatform.github).getCommit(this._repo, HEAD);
+      } else {
+        const branches = await this.codeAPI.asPlatform(CodePlatform.github).getBranches(this._repo);
+        const originBranch = branches.find((b) => branch === b.name);
+        let originTag;
+        // 尝试查找tag
+        if (!originBranch) {
+          const tags = await this.codeAPI.asPlatform(CodePlatform.github).getTags(this._repo);
+          originTag = tags.find((t) => branch === t.name);
+        }
+        this._repo.commit = originBranch?.commit.id || originTag?.commit.id || '';
       }
-      this._repo.commit = originBranch?.commit.id || originTag?.commit.id || '';
+    } catch (err) {
+      console.error(err);
     }
+
     // TODO 不使用 recursive 递归接口直接查询
-    const tree = await this.codeAPI.asPlatform(CodePlatform.github).getTree(this._repo, '', 1);
+    const tree = await this.codeAPI.asPlatform(CodePlatform.github).getTree(this._repo, '', 1).catch(err => {
+      console.error(err);
+      return [];
+    })
+
     tree.forEach((item) => {
       map[item.path] = item;
     });
@@ -115,16 +125,14 @@ export class HttpFileService extends AbstractHttpFileService {
     if (this.fileMap[relativePath].mode === 'new') {
       return this.fileMap[relativePath].content || '';
     }
-    const blob = await (
-      await this.codeAPI.asPlatform(CodePlatform.github).getBlob(this._repo, this.fileMap[relativePath])
-    ).toString();
-    return blob;
+    const blob = await this.codeAPI.asPlatform(CodePlatform.github).getBlob(this._repo, this.fileMap[relativePath]);
+    return blob.toString();
   }
 
   async readDir(uri: Uri) {
     const _uri = new URI(uri);
     const treeNode = this.getTargetTreeNode(_uri);
-    const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
+    const relativePath = this.getRelativePath(_uri)
     return (treeNode?.children || []).map((item) => ({
       ...item,
       path: relativePath + PathSeperator + item.path,
@@ -132,7 +140,7 @@ export class HttpFileService extends AbstractHttpFileService {
   }
 
   private getTargetTreeNode(uri: URI) {
-    const relativePath = URI.file(this.appConfig.workspaceDir).relative(uri)!.toString();
+    const relativePath = this.getRelativePath(uri)
     if (!relativePath) {
       // 根目录
       return { children: this.fileTree, path: relativePath };
@@ -150,7 +158,7 @@ export class HttpFileService extends AbstractHttpFileService {
   async updateFile(uri: Uri, content: string, options: { encoding?: string; newUri?: Uri }): Promise<void> {
     const _uri = new URI(uri);
     // TODO: sync update to remote logic
-    const relativePath = URI.file(this.appConfig.workspaceDir).relative(_uri)!.toString();
+    const relativePath = this.getRelativePath(_uri)
     if (options.newUri) {
       delete this.fileMap[relativePath];
       // TODO: 只更新对应节点，可以有更好的性能
