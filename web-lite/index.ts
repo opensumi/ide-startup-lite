@@ -16,7 +16,7 @@ import { BrowserCommonServer } from './overrides/browser-common-server';
 import { MockFileSearch } from './overrides/mock-file-search';
 import { MockLogServiceForClient } from './overrides/mock-logger';
 import { MockCredentialService } from './overrides/mock-credential.service';
-
+import { KtExtFsProviderContribution } from './kt-ext-provider/index.contribution'
 @Injectable()
 export class WebLiteModule extends BrowserModule {
   providers: Provider[] = [
@@ -45,6 +45,7 @@ export class WebLiteModule extends BrowserModule {
       useValue: {},
     },
     FileProviderContribution,
+    KtExtFsProviderContribution,
     TextmateLanguageGrammarContribution,
     // lsif client. disabled by default
     // {

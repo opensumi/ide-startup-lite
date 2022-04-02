@@ -68,7 +68,7 @@ export class HttpFileService extends AbstractHttpFileService {
         }
         this._repo.commit = originBranch?.commit.id || originTag?.commit.id || '';
       }
-    } catch (err: unknown) {
+    } catch (err) {
       console.error(err);
     }
 
