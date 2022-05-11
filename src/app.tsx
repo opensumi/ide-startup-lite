@@ -1,24 +1,16 @@
+import '@opensumi/ide-core-browser/lib/style/index.less';
+import '@opensumi/antd-theme/lib/index.css';
 import '@opensumi/ide-i18n/lib/browser';
-import { SlotLocation } from '@opensumi/ide-core-browser';
 import * as React from 'react';
+import { SlotLocation } from '@opensumi/ide-core-browser';
 
+import { WebLiteModule } from '../web-lite';
+import { CodeAPIModule } from '../web-lite/code-api';
+import '../web-lite/i18n';
+import { DEFAULT_URL, parseUri } from '../web-lite/utils';
 import { CommonBrowserModules } from './common-modules';
 import { renderApp } from './render-app';
-
-// 引入公共样式文件
-import '@opensumi/ide-core-browser/lib/style/index.less';
-// antd opensumi 样式文件，如果你不需要使用antd组件，请移除
-import '@opensumi/antd-theme/lib/index.css';
-
-import { WebLiteModule }  from '../web-lite';
-
-import { SampleModule } from './module';
-
 import './styles.less';
-import '../web-lite/i18n'
-import { LayoutComponent } from './custom-layout-component';
-import { CodeAPIModule } from '../web-lite/code-api';
-import { parseUri, DEFAULT_URL } from '../web-lite/utils';
 
 // 视图和slot插槽的对应关系
 const layoutConfig = {
@@ -52,12 +44,14 @@ const layoutConfig = {
 // 支持分支及tag  如 http://0.0.0.0:8080/#https://github.com/opensumi/core/tree/v2.15.0
 
 const hash =
-  location.hash.startsWith('#') && location.hash.indexOf('github') > -1 ? location.hash.split('#')[1] : DEFAULT_URL;
+  location.hash.startsWith('#') && location.hash.indexOf('github') > -1
+    ? location.hash.split('#')[1]
+    : DEFAULT_URL;
 
 const { platform, owner, name, branch } = parseUri(hash);
 
 renderApp({
-  modules: [WebLiteModule, ...CommonBrowserModules, SampleModule, CodeAPIModule],
+  modules: [WebLiteModule, ...CommonBrowserModules, CodeAPIModule],
   layoutConfig,
   useCdnIcon: true,
   noExtHost: true,
