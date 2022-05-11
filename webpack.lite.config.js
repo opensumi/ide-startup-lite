@@ -1,13 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const {
-  BundleAnalyzerPlugin
-} = require('webpack-bundle-analyzer');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
-const darkTheme = require('@ant-design/dark-theme');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 
@@ -158,7 +154,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html',
       inject: false,
