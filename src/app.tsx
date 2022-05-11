@@ -21,7 +21,7 @@ const layoutConfig = {
     modules: [''],
   },
   [SlotLocation.left]: {
-    modules: ['@opensumi/ide-explorer', 'test-view'],
+    modules: ['@opensumi/ide-explorer'],
   },
   [SlotLocation.main]: {
     modules: ['@opensumi/ide-editor'],

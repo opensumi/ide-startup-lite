@@ -1,7 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const {
+  BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
@@ -33,8 +35,8 @@ module.exports = {
     Buffer: false,
   },
   output: {
-    filename: 'bundle.js',
     path: dir + '/dist',
+    filename: '[name].bundle.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.less'],
@@ -44,6 +46,7 @@ module.exports = {
       }),
     ],
     alias: {
+      lodash: 'lodash-es',
       fs: 'browserfs/dist/shims/fs.js',
       buffer: 'browserfs/dist/shims/buffer.js',
       path: 'browserfs/dist/shims/path.js',
@@ -58,14 +61,17 @@ module.exports = {
   module: {
     // https://github.com/webpack/webpack/issues/196#issuecomment-397606728
     exprContextCritical: false,
-    rules: [
-      {
+    rules: [{
         test: /\.tsx?$/,
-        use: [
-          {
+        use: [{
             loader: 'babel-loader',
             options: {
-              plugins: [['import', {"libraryName": "antd", style: 'css'}]]
+              plugins: [
+                ['import', {
+                  "libraryName": "antd",
+                  style: 'css'
+                }]
+              ]
             }
           },
           {
@@ -117,23 +123,20 @@ module.exports = {
             loader: 'less-loader',
             options: {
               javascriptEnabled: true,
-              modifyVars: darkTheme.default,
             },
           },
         ],
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/',
-              publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8080/fonts"
-            },
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+            publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8080/fonts"
           },
-        ],
+        }, ],
       },
     ],
   },
@@ -144,6 +147,19 @@ module.exports = {
     moduleExtensions: ['-loader'],
   },
   optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: "all",
+      cacheGroups: {
+        common: {
+          name: "textmate-languages",
+          priority: 0,
+          test: /node_modules\/@opensumi\/textmate-languages/,
+          minSize: 0,
+          minChunks: 1,
+        },
+      },
+    },
     nodeEnv: process.env.NODE_ENV,
     minimizer: [
       new TerserJSPlugin({
@@ -151,10 +167,11 @@ module.exports = {
           ecma: 2020,
         },
       }),
-      // new OptimizeCSSAssetsPlugin({}),
+      new OptimizeCSSAssetsPlugin({}),
     ],
   },
   plugins: [
+    new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html',
       inject: false,
@@ -169,9 +186,9 @@ module.exports = {
       'process.env': '"ENV_VAR_NOT_FOUND"',
       'process.env.DEVELOPMENT': JSON.stringify(!!isDevelopment),
       'process.env.EXTENSION_WORKER_HOST': JSON.stringify(
-        process.env.GITHUB_WORKFLOW
-          ? 'https://opensumi.github.io/ide-startup-lite/worker.host.js'
-          : '',
+        process.env.GITHUB_WORKFLOW ?
+        'https://opensumi.github.io/ide-startup-lite/worker.host.js' :
+        '',
       ),
     }),
     new webpack.ProvidePlugin({
