@@ -147,19 +147,6 @@ module.exports = {
     moduleExtensions: ['-loader'],
   },
   optimization: {
-    runtimeChunk: 'single',
-    splitChunks: {
-      chunks: "all",
-      cacheGroups: {
-        common: {
-          name: "textmate-languages",
-          priority: 0,
-          test: /node_modules\/@opensumi\/textmate-languages/,
-          minSize: 0,
-          minChunks: 1,
-        },
-      },
-    },
     nodeEnv: process.env.NODE_ENV,
     minimizer: [
       new TerserJSPlugin({
