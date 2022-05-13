@@ -77,7 +77,7 @@ module.exports = {
               transpileOnly: true,
               configFile: tsConfigPath,
               compilerOptions: {
-                target: 'es2020',
+                target: 'es2017',
               },
             },
           },

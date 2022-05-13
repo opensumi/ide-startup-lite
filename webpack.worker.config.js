@@ -30,7 +30,12 @@ module.exports = {
       test: /\.tsx?$/,
       loader: 'ts-loader',
       options: {
-        configFile: tsConfigPath
+        configFile: tsConfigPath,
+        happyPackMode: true,
+        transpileOnly: true,
+        compilerOptions: {
+          target: 'es2017',
+        },
       }
     },
     ],
