@@ -9,8 +9,8 @@
     "compile:ext-worker": "cross-env NODE_ENV=production webpack --config=webpack.worker.config.js --progress"
   },
   "resolutions": {
-    "acorn": "^8.7.1",
-    "terser": "^5.13.1"
+    "vscode-languageserver-protocol": "3.16.0",
+    "vscode-jsonrpc": "6.0.0"
   },
   "dependencies": {
     "@opensumi/antd-theme": "^1.0.1",
