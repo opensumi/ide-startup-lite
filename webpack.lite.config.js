@@ -32,7 +32,7 @@ module.exports = {
   },
   output: {
     path: dir + '/dist',
-    filename: '[name].bundle.js',
+    filename: 'bundle.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.less'],
@@ -145,11 +145,7 @@ module.exports = {
   optimization: {
     nodeEnv: process.env.NODE_ENV,
     minimizer: [
-      new TerserJSPlugin({
-        terserOptions: {
-          ecma: 2020,
-        },
-      }),
+      new TerserJSPlugin({}),
       new OptimizeCSSAssetsPlugin({}),
     ],
   },
