@@ -58,11 +58,9 @@ renderApp({
   defaultPreferences: {
     'general.theme': 'ide-light',
     'general.icon': 'vsicons-slim',
-    'application.confirmExit': 'never',
     'editor.quickSuggestionsDelay': 100,
     'editor.quickSuggestionsMaxCount': 50,
-    'editor.scrollBeyondLastLine': false,
-    'general.language': 'en-US',
+    'editor.scrollBeyondLastLine': false
   },
   workspaceDir: `/${platform}/${owner}/${name}`,
   extraContextProvider: (props) => (
