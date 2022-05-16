@@ -4,11 +4,11 @@ import { IExtensionNodeClientService, IExtraMetaData, IExtensionMetaData } from 
 import { getExtension } from './utils';
 
 const extensionList = [
-  { id: 'alex-ext-public.typescript-language-features-worker', version: '1.53.0-patch.3' },
-  { id: 'alex-ext-public.markdown-language-features-worker', version: '1.53.0-patch.1' },
-  { id: 'alex-ext-public.html-language-features-worker', version: '1.53.0-patch.1' },
-  { id: 'alex-ext-public.json-language-features-worker', version: '1.53.0-patch.1' },
-  { id: 'alex-ext-public.css-language-features-worker', version: '1.53.0-patch.1' },
+  { id: 'alex-ext-public.typescript-language-features-worker', version: '1.53.0-patch.4' },
+  { id: 'alex-ext-public.markdown-language-features-worker', version: '1.53.0-patch.2' },
+  { id: 'alex-ext-public.html-language-features-worker', version: '1.53.0-patch.3' },
+  { id: 'alex-ext-public.json-language-features-worker', version: '1.53.0-patch.3' },
+  { id: 'alex-ext-public.css-language-features-worker', version: '1.53.0-patch.3' },
   { id: 'alex-ext-public.vsicons-slim', version: '1.0.5' },
   { id: 'worker-public.ide-ext-theme', version: '2.5.2' },
 ];

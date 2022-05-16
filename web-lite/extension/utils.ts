@@ -43,6 +43,14 @@ export function mergeContributes(
   });
 }
 
+async function tryFetchPackageNlsJson(extensionId: string, version: string) {
+  const extPath = `gw.alipayobjects.com/os/marketplace/assets/${extensionId}/v${version}/extension/`;
+  const defaultPackageJSON = await fetch(`https://${extPath}package.nls.json`)
+    .then((res) => res.json())
+    .catch((err) => undefined);
+  return defaultPackageJSON;
+}
+
 export async function getExtension(extensionId: string, version: string): Promise<IExtensionMetaData | undefined> {
   const extPath = `gw.alipayobjects.com/os/marketplace/assets/${extensionId}/v${version}/extension/`;
   const packageJSON = await fetch(`https://${extPath}package.json`)
@@ -63,7 +71,7 @@ export async function getExtension(extensionId: string, version: string): Promis
     extendConfig: {},
     path: extensionPath,
     packageJSON,
-    defaultPkgNlsJSON: undefined,
+    defaultPkgNlsJSON: await tryFetchPackageNlsJson(extensionId, version),
     packageNlsJSON: undefined,
     realPath: extensionPath,
     uri: Uri.parse(extensionPath),

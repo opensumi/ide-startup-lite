@@ -1,6 +1,6 @@
+import '@opensumi/ide-i18n';
 import '@opensumi/ide-core-browser/lib/style/index.less';
 import '@opensumi/antd-theme/lib/index.css';
-import '@opensumi/ide-i18n/lib/browser';
 import * as React from 'react';
 import { SlotLocation } from '@opensumi/ide-core-browser';
 
