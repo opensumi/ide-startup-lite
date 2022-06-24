@@ -7,7 +7,7 @@ import {
   FileChangeEvent,
   FileSystemProviderCapabilities,
 } from '@opensumi/ide-file-service';
-import { BinaryBuffer } from '@opensumi/ide-core-common/lib/utils/buffer';
+import { BinaryBuffer } from '@opensumi/ide-core-common';
 
 /**
  * 解析 kt-ext:// 文件，解决前端插件加载问题

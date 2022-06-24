@@ -1,6 +1,6 @@
 import { Injectable } from '@opensumi/di';
 import { Uri, Event, FileSystemProviderCapabilities, Emitter } from '@opensumi/ide-core-browser';
-import { BinaryBuffer } from '@opensumi/ide-core-common/lib/utils/buffer';
+import { BinaryBuffer } from '@opensumi/ide-core-common';
 import { FileSystemProvider, FileStat, FileType, FileChangeEvent } from '@opensumi/ide-file-service';
 
 /**

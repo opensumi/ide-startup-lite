@@ -6,7 +6,8 @@ import {
   AppConfig,
   Uri,
 } from '@opensumi/ide-core-browser';
-import { Path } from '@opensumi/ide-core-common/lib/path';
+import { path } from '@opensumi/ide-core-common';
+const { Path } = path;
 import { BrowserFsProvider, AbstractHttpFileService } from './browser-fs-provider';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { FileServiceClient } from '@opensumi/ide-file-service/lib/browser/file-service-client';
