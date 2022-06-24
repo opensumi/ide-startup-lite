@@ -10,7 +10,8 @@
   },
   "resolutions": {
     "vscode-languageserver-protocol": "3.16.0",
-    "vscode-jsonrpc": "6.0.0"
+    "vscode-jsonrpc": "6.0.0",
+    "yargs": "13.3.2"
   },
   "dependencies": {
     "@opensumi/antd-theme": "^1.0.1",

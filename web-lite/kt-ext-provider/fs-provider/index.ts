@@ -7,7 +7,7 @@ import {
   FileChangeEvent,
   FileSystemProviderCapabilities,
 } from '@opensumi/ide-file-service';
-import { BinaryBuffer } from '@opensumi/ide-core-common/lib/utils/buffer';
+import { BinaryBuffer } from '@opensumi/ide-utils/lib/buffer';
 
 /**
  * 解析 kt-ext:// 文件，解决前端插件加载问题
@@ -19,7 +19,7 @@ export class KaitianExtFsProvider implements FileSystemProvider {
   async readFile(uri: Uri) {
 
     const requestUrl = uri.with({ scheme: 'https' });
-  
+
     return await fetch(requestUrl.toString(), {
       headers: {
         'Accept-Encoding': 'gzip, deflate',
