@@ -24,6 +24,7 @@ jobs:
       run: |
         yarn
         yarn run compile:ext-worker
+        yarn run compile:webview
         yarn run build
 
     - name: Deploy to Github Pages

@@ -208,7 +208,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
     try {
       await promisify(fs.stat)(FileUri.fsPath(_uri));
       return true;
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT') {
         if (uri.fsPath.startsWith(this.options.rootFolder)) {
           const content = await this.ensureFile(_uri);

@@ -1,5 +1,5 @@
 import { Autowired } from '@opensumi/di';
-import { Domain, URI, AppConfig, ClientAppContribution, Schemas } from '@opensumi/ide-core-browser';
+import { Domain, URI, AppConfig, ClientAppContribution, Schemes } from '@opensumi/ide-core-browser';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { FileServiceClient } from '@opensumi/ide-file-service/lib/browser/file-service-client';
 import {
@@ -44,6 +44,6 @@ export class KtExtFsProviderContribution
     this.fileSystem.registerProvider('kt-ext', this.ktExtFsProvider);
 
     // TODO 暂时注册 walkThroughSnippet
-    this.fileSystem.registerProvider(Schemas.walkThroughSnippet,this.walkThroughSnippetProvider);
+    this.fileSystem.registerProvider(Schemes.walkThroughSnippet,this.walkThroughSnippetProvider);
   }
 }
