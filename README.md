@@ -12,6 +12,7 @@ $ git clone https://github.com/opensumi/ide-startup-lite.git
 $ cd ide-startup-lite
 $ yarn                 # 安装依赖
 $ yarn compile:ext-worker   # 编译 webworker 插件环境
+$ yarn compile:webview   # 编译 webview
 $ yarn start         # 启动
 ```
 

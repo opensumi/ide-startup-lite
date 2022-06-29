@@ -162,10 +162,16 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': '"ENV_VAR_NOT_FOUND"',
+      'process.env.PORT': port,
       'process.env.DEVELOPMENT': JSON.stringify(!!isDevelopment),
       'process.env.EXTENSION_WORKER_HOST': JSON.stringify(
         process.env.GITHUB_WORKFLOW ?
         'https://opensumi.github.io/ide-startup-lite/worker.host.js' :
+        '',
+      ),
+      'process.env.webviewEndpoint': JSON.stringify(
+        process.env.GITHUB_WORKFLOW ?
+        'https://opensumi.github.io/ide-startup-lite/webview/webview.js' :
         '',
       ),
     }),

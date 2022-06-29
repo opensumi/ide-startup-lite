@@ -7,14 +7,15 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AbstractHttpFileService, BrowserFsProvider, BROWSER_HOME_DIR } from '../web-lite/file-provider/browser-fs-provider';
 import { HttpFileService } from '../web-lite/file-provider/http-file.service';
+import { WSChannelHandler } from '@opensumi/ide-connection/lib/browser';
 
 export async function renderApp(opts: IClientAppOpts) {
   const injector = new Injector();
   opts.injector = injector;
 
   opts.workspaceDir = opts.workspaceDir || process.env.WORKSPACE_DIR;
-  opts.extWorkerHost = opts.extWorkerHost || process.env.EXTENSION_WORKER_HOST || 'http://localhost:8080/worker.host.js';
-  opts.webviewEndpoint = opts.webviewEndpoint || `http://localhost:50998`;
+  opts.extWorkerHost = opts.extWorkerHost || process.env.EXTENSION_WORKER_HOST || `http://localhost:${process.env.PORT}/worker.host.js`;
+  opts.webviewEndpoint = opts.webviewEndpoint || `http://localhost:${process.env.PORT}/webview`;
 
   // TODO: 框架在新版本加了不允许覆盖file协议的限制，这里通过DI覆盖，后续需要确认下是否要必要加这个限制
   injector.addProviders({
@@ -26,7 +27,11 @@ export async function renderApp(opts: IClientAppOpts) {
     token: IDiskFileProvider,
     useValue: new BrowserFsProvider(httpFs, { rootFolder: opts.workspaceDir! }),
   });
-
+  // 防止 onStop报错 
+  injector.addProviders({
+    token: WSChannelHandler,
+    useValue: { clientId: 'web-lite' },
+  });
   BrowserFS.configure({
     fs: "MountableFileSystem",
     options: {
