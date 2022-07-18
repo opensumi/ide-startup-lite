@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
     "target": "es2017",
     "moduleResolution": "node",
     "strict": true,
@@ -8,7 +8,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "removeComments": true,
+    "removeComments": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "importHelpers": true,

@@ -7,7 +7,6 @@
     "postinstall": "npm run compile:webview && npm run compile:ext-worker",
     "start": "webpack-dev-server --config ./webpack.lite.config.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.lite.config.js --progress",
-    "compile:webview": "webpack --config=webpack.webview.config.js --progress",
     "compile:ext-worker": "cross-env NODE_ENV=production webpack --config=webpack.worker.config.js --progress"
   },
   "resolutions": {

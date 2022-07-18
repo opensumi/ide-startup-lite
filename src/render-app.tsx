@@ -28,11 +28,12 @@ export async function renderApp(opts: IClientAppOpts) {
   });
 
   BrowserFS.configure({
-    fs: "MountableFileSystem",
+    fs: "FolderAdapter",
     options: {
-      [opts.workspaceDir!]: { fs: "InMemory" },
-      // home目录挂载到lcoalstorage来支持一些记录的持久化，不需要持久化可以注释掉
-      // '/home': { fs: "LocalStorage", options: {} },
+      folder: '/home',
+      wrapped: {
+        fs: 'LocalStorage',
+      }
     }
   }, async function (e) {
     await setupAppDataDir(opts.workspaceDir!);

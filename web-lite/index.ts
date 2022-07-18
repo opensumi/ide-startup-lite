@@ -8,18 +8,21 @@ import { DebugPreferences } from '@opensumi/ide-debug/lib/browser';
 import { ExtensionClientService } from './extension';
 import { FileProviderContribution } from './file-provider/index.contribution';
 import { TextmateLanguageGrammarContribution } from './grammar/index.contribution';
-// import { LanguageServiceContribution } from './language-service/language.contribution';
-// import { LsifServiceImpl } from './language-service/lsif-service';
-// import { ILsifService } from './language-service/lsif-service/base';
-
 import { BrowserCommonServer } from './overrides/browser-common-server';
 import { MockFileSearch } from './overrides/mock-file-search';
 import { MockLogServiceForClient } from './overrides/mock-logger';
 import { MockCredentialService } from './overrides/mock-credential.service';
-import { KtExtFsProviderContribution } from './kt-ext-provider/index.contribution'
+import { FsProviderContribution } from './file-system-provider/index.contribution'
+import { WalkThroughSnipppetDocumentProvider } from './file-system-provider/fs-provider';
+import { MenuOverrideContribution } from './overrides/menu.contribution';
+
 @Injectable()
 export class WebLiteModule extends BrowserModule {
   providers: Provider[] = [
+    {
+      token: WalkThroughSnipppetDocumentProvider,
+      useClass: WalkThroughSnipppetDocumentProvider,
+    },
     {
       token: CommonServerPath,
       useClass: BrowserCommonServer,
@@ -45,13 +48,8 @@ export class WebLiteModule extends BrowserModule {
       useValue: {},
     },
     FileProviderContribution,
-    KtExtFsProviderContribution,
+    FsProviderContribution,
     TextmateLanguageGrammarContribution,
-    // lsif client. disabled by default
-    // {
-    //   token: ILsifService,
-    //   useClass: LsifServiceImpl,
-    // },
-    // LanguageServiceContribution,
+    MenuOverrideContribution,
   ];
 }

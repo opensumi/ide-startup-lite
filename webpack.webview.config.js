@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 
 module.exports = {
-  entry: path.join(__dirname, 'webview-host/web-preload.ts'),
+  entry: require.resolve('@opensumi/ide-webview/lib/webview-host/web-preload'),
   node: {
     net: 'empty',
     child_process: 'empty',

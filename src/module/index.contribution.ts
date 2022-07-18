@@ -5,6 +5,7 @@ import { IWorkspaceService } from '@opensumi/ide-workspace';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { IMainLayoutService } from '@opensumi/ide-main-layout';
 import { TestView, TestView2 } from './index.view';
+import { IMenuRegistry, MenuContribution, MenuId } from '@opensumi/ide-core-browser/lib/menu/next';
 
 const REFRESH: Command = {
   id: 'test.refresh',
@@ -12,8 +13,8 @@ const REFRESH: Command = {
   label: '刷新视图',
 };
 
-@Domain(ClientAppContribution, ComponentContribution, CommandContribution, TabBarToolbarContribution)
-export class SampleContribution implements ClientAppContribution, ComponentContribution, CommandContribution, TabBarToolbarContribution {
+@Domain(ClientAppContribution, ComponentContribution, CommandContribution, TabBarToolbarContribution, MenuContribution)
+export class SampleContribution implements ClientAppContribution, ComponentContribution, CommandContribution, TabBarToolbarContribution, MenuContribution {
 
   @Autowired(IStatusBarService)
   statusBarService: IStatusBarService;
@@ -36,6 +37,10 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
       priority: 1,
       weight: 2,
     }, 'explorer', {name: 'OpenSumi'})
+  }
+
+  registerMenus(registry: IMenuRegistry) {
+    registry.removeMenubarItem(MenuId.MenubarTerminalMenu);
   }
 
   registerToolbarItems(registry: ToolbarRegistry) {
