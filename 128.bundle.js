@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[128],{1272:function(n){n.exports=JSON.parse('{"comments":{"lineComment":"//","blockComment":["/*","*/"]},"brackets":[["{","}"],["[","]"],["(",")"]],"autoClosingPairs":[["{","}"],["[","]"],["(",")"],{"open":"\\"","close":"\\"","notIn":["string"]}],"surroundingPairs":[["{","}"],["[","]"],["(",")"],["\\"","\\""]]}')}}]);
