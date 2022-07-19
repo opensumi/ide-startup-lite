@@ -16,8 +16,7 @@ const isDevelopment =
   process.env['NODE_ENV'] === 'development' ||
   process.env['NODE_ENV'] === 'dev';
 
-const styleLoader =
-  process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader';
+const styleLoader = process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader';
 
 module.exports = {
   entry: dir + '/src/app',
@@ -57,18 +56,23 @@ module.exports = {
   module: {
     // https://github.com/webpack/webpack/issues/196#issuecomment-397606728
     exprContextCritical: false,
-    rules: [{
+    rules: [
+      {
         test: /\.tsx?$/,
-        use: [{
+        use: [
+          {
             loader: 'babel-loader',
             options: {
               plugins: [
-                ['import', {
-                  "libraryName": "antd",
-                  style: 'css'
-                }]
-              ]
-            }
+                [
+                  'import',
+                  {
+                    libraryName: 'antd',
+                    style: 'css',
+                  },
+                ],
+              ],
+            },
           },
           {
             loader: 'ts-loader',
@@ -125,14 +129,16 @@ module.exports = {
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'fonts/',
-            publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8080/fonts"
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+              publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8080/fonts"
+            },
           },
-        }, ],
+        ],
       },
     ],
   },
@@ -144,10 +150,7 @@ module.exports = {
   },
   optimization: {
     nodeEnv: process.env.NODE_ENV,
-    minimizer: [
-      new TerserJSPlugin({}),
-      new OptimizeCSSAssetsPlugin({}),
-    ],
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -164,9 +167,7 @@ module.exports = {
       'process.env': '"ENV_VAR_NOT_FOUND"',
       'process.env.DEVELOPMENT': JSON.stringify(!!isDevelopment),
       'process.env.EXTENSION_WORKER_HOST': JSON.stringify(
-        process.env.GITHUB_WORKFLOW ?
-        'https://opensumi.github.io/ide-startup-lite/worker.host.js' :
-        '',
+        process.env.GITHUB_WORKFLOW ? 'https://opensumi.github.io/ide-startup-lite/worker.host.js' : '',
       ),
     }),
     new webpack.ProvidePlugin({
