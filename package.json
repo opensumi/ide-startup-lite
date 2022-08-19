@@ -13,11 +13,11 @@
   "resolutions": {
     "vscode-languageserver-protocol": "3.16.0",
     "vscode-jsonrpc": "6.0.0",
-    "yargs": "13.3.2"
+    "yargs": "13.3.2",
+    "@opensumi/di": "1.7.0"
   },
   "dependencies": {
     "@opensumi/antd-theme": "^1.0.1",
-    "@opensumi/di": "^1.0.0",
     "@opensumi/ide-addons": "2.19.8",
     "@opensumi/ide-comments": "2.19.8",
     "@opensumi/ide-components": "2.19.8",
