@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import * as React from "react";
 
@@ -10,7 +10,7 @@ import { localize } from "@opensumi/ide-core-common";
 import type { CodeAPIProvider } from "../code-api.provider";
 import { ICodeAPIProvider } from "../common/types";
 
-import "./github.module.less";
+import * as styles from "./github.module.less";
 
 export const GitHubView: React.FC = observer(() => {
   const { github } = useInjectable<CodeAPIProvider>(ICodeAPIProvider);
@@ -66,17 +66,17 @@ export const GitHubView: React.FC = observer(() => {
 
   const renderNoToken = () => (
     <div>
-      <div className="title">
+      <div className={styles.title}>
         {localize("github.auth-title")}
         <a
-          href="https://github.com/settings/tokens/new?scopes=repo&description=Ant%20Codespaces"
+          href="https://github.com/settings/tokens/new?scopes=repo&description=OpenSumi%20Lite"
           target="_blank"
           style={{ marginLeft: 8 }}
         >
           <i className={getOctIcon("link")}></i> {localize("github.auth-goto")}
         </a>
       </div>
-      <div className="authTip">
+      <div className={styles.authTip}>
         {localize("github.auth-tip")}{" "}
         <a
           href="https://docs.github.com/en/rest/overview/resources-in-the-rest-api#authentication"
@@ -85,7 +85,7 @@ export const GitHubView: React.FC = observer(() => {
           {localize("common.ref-doc")}
         </a>
       </div>
-      <div className="authInput">
+      <div className={styles.authInput}>
         <Input
           size="small"
           placeholder={`${localize("github.auth-input")} OAuth Token`}
@@ -118,7 +118,7 @@ export const GitHubView: React.FC = observer(() => {
     const token = github.OAUTH_TOKEN!;
     return (
       <div>
-        <div className="title">{localize("github.auth-has-token-title")}</div>
+        <div className={styles.title}>{localize("github.auth-has-token-title")}</div>
         <div>{localize("github.auth-cur-token")}</div>
         <div>
           {token.slice(0, 6)}
@@ -134,8 +134,8 @@ export const GitHubView: React.FC = observer(() => {
   };
 
   return (
-    <div className="container">
-      <div className="title">
+    <div className={styles.container}>
+      <div className={styles.title}>
         {localize("github.rate-limiting-info")}{" "}
         <span
           style={{ marginLeft: 8, cursor: "pointer" }}

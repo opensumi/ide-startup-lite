@@ -34,6 +34,7 @@ export const localizationBundle = {
 
     'github.invalid-token': 'token 无效',
     'github.request-rate-limit': '超出 API 速率限制',
+    'github.open-settings': '前往设置',
     'github.request-rate-limit-with-token': '当前请求已超出限制，请等待重置后再重试',
     'github.resource-not-found': '资源不存在',
     'github.rate-limiting-info': '速率限制信息',

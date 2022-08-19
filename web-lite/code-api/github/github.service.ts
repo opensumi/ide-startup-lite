@@ -20,6 +20,7 @@ import { retry, RetryError } from '../common/utils';
 import { request, isResponseError, RequestOptions } from '../request';
 
 import { API } from './types';
+import { IMainLayoutService } from '@opensumi/ide-main-layout';
 
 const toType = (status: string) => {
   switch (status) {
@@ -40,6 +41,9 @@ const toType = (status: string) => {
 export class GitHubAPIService implements ICodeAPIService {
   @Autowired(HelperService)
   private readonly helper: HelperService;
+
+  @Autowired(IMainLayoutService)
+  private readonly layoutService: IMainLayoutService;
 
   @Autowired(AppConfig)
   appConfig: AppConfig;
@@ -99,19 +103,36 @@ export class GitHubAPIService implements ICodeAPIService {
     return `https://raw.githubusercontent.com/${this.getProjectPath(repo)}/${repo.commit}/${path}`;
   }
 
+  private showGithubView() {
+    const handler = this.layoutService.getTabbarHandler(CodePlatform.github);
+    console.log(handler, '==>')
+    if (!handler?.isActivated()) {
+      handler?.activate();
+    }
+  }
+
   private showErrorRequestMessage(status: number): never;
   private showErrorRequestMessage(status: number, throwError: false): void;
   private showErrorRequestMessage(status: number, throwError?: boolean): any {
     let messageKey = 'error.request';
+    let buttons: string[] = [];
     if (status === 401) {
       messageKey = 'github.invalid-token';
+      buttons.push(localize('github.open-settings'));
     } else if (status === 403) {
       messageKey = 'github.request-rate-limit';
+      buttons.push(localize('github.open-settings'));
     } else if (status === 404) {
       messageKey = 'github.resource-not-found';
     }
     const message = `${status ? `${status} - ` : ''}${localize(messageKey)}`;
-    this.helper.showMessage(CodePlatform.github, { type: MessageType.Error, status, message });
+    this.helper.showMessage(CodePlatform.github, { type: MessageType.Error, status, message }, {
+      buttons,
+    }).then((yes) => {
+      if (yes) {
+        this.showGithubView();
+      }
+    });
 
     if (throwError !== false) {
       throw new Error(message);
