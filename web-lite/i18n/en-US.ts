@@ -34,6 +34,7 @@ export const localizationBundle = {
 
     'github.invalid-token': 'Invalid token',
     'github.request-rate-limit': 'API rate limit exceeded',
+    'github.open-settings': 'open settings',
     'github.request-rate-limit-with-token': 'API rate limit exceeded, please retry after reset',
     'github.resource-not-found': 'Resource not found',
     'github.rate-limiting-info': 'Rate Limiting Info',

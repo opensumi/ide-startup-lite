@@ -9,10 +9,10 @@ import { CodePlatform, ICodeAPIProvider } from './common/types';
 @Domain(CommandContribution, ClientAppContribution)
 export class CodeAPIContribution implements CommandContribution, ClientAppContribution {
   @Autowired(ICodeAPIProvider)
-  codeAPI: CodeAPIProvider;
+  private readonly codeAPI: CodeAPIProvider;
 
   @Autowired(IMainLayoutService)
-  layoutService: IMainLayoutService;
+  private readonly layoutService: IMainLayoutService;
 
   registerCommands(registry: CommandRegistry) {
     registry.afterExecuteCommand(`workbench.view.${CodePlatform.github}`, () => {
