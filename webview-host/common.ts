@@ -66,7 +66,7 @@ export interface IWebviewChannel {
   onKeydown?: (event: KeyboardEvent) => void;
 }
 
-function addslashes(str) {
+function addSlashes(str) {
   // eslint-disable-next-line no-control-regex
   return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
 }
@@ -78,7 +78,7 @@ export function getVsCodeApiScript(state) {
       const targetOrigin = '*';
       let acquired = false;
 
-      let state = ${state ? `JSON.parse("${addslashes(JSON.stringify(state))}")` : undefined};
+      let state = ${state ? `JSON.parse("${addSlashes(JSON.stringify(state))}")` : undefined};
 
       return () => {
         if (acquired) {

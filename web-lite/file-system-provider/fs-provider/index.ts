@@ -4,8 +4,7 @@ import { IEditorDocumentModelContentProvider } from '@opensumi/ide-editor/lib/br
 import { Emitter } from '@opensumi/ide-monaco/lib/common/types';
 
 @Injectable()
-export class WalkThroughSnipppetDocumentProvider implements IEditorDocumentModelContentProvider {
-
+export class WalkThroughSnippetDocumentProvider implements IEditorDocumentModelContentProvider {
   private value = '';
 
   handlesScheme(scheme: string) {
