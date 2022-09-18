@@ -1,18 +1,12 @@
 import { Autowired, Injectable } from '@opensumi/di';
 import { URI, Uri, AppConfig } from '@opensumi/ide-core-browser';
 
-import {
-  ICodeAPIProvider,
-  ICodePlatform,
-  IRepositoryModel,
-  CodePlatform,
-  TreeEntry,
-} from '../code-api/common/types';
+import { ICodeAPIProvider, ICodePlatform, IRepositoryModel, CodePlatform, TreeEntry } from '../code-api/common/types';
 import { DEFAULT_URL, parseUri } from '../utils';
 
 import { AbstractHttpFileService } from './browser-fs-provider';
 
-const PathSeperator = '/';
+const PathSeparator = '/';
 const HEAD = 'HEAD';
 
 export type HttpTreeList = { path: string; content?: string; children: HttpTreeList }[];
@@ -73,10 +67,13 @@ export class HttpFileService extends AbstractHttpFileService {
     }
 
     // TODO 不使用 recursive 递归接口直接查询
-    const tree = await this.codeAPI.asPlatform(CodePlatform.github).getTree(this._repo, '', 1).catch(err => {
-      console.error(err);
-      return [];
-    })
+    const tree = await this.codeAPI
+      .asPlatform(CodePlatform.github)
+      .getTree(this._repo, '', 1)
+      .catch((err) => {
+        console.error(err);
+        return [];
+      });
 
     tree.forEach((item) => {
       map[item.path] = item;
@@ -91,11 +88,14 @@ export class HttpFileService extends AbstractHttpFileService {
     const result: HttpTreeList = [];
     // helper 的对象
     const accumulator = { __result__: result };
-    const filelist = Object.keys(files).map((path) => ({ path, content: files[path] }));
+    const filelist = Object.keys(files).map((path) => ({
+      path,
+      content: files[path],
+    }));
     filelist.forEach((file) => {
       const path = file.path!;
       // 初始的 accumulator 为 level
-      path.split(PathSeperator).reduce((acc, cur) => {
+      path.split(PathSeparator).reduce((acc, cur) => {
         // 每次返回 path 对应的 desc 作为下一个 path 的 parent
         // 不存在 path 对应的 desc 则创建一个新的挂载到 acc 上
         if (!acc[cur]) {
@@ -132,20 +132,20 @@ export class HttpFileService extends AbstractHttpFileService {
   async readDir(uri: Uri) {
     const _uri = new URI(uri);
     const treeNode = this.getTargetTreeNode(_uri);
-    const relativePath = this.getRelativePath(_uri)
+    const relativePath = this.getRelativePath(_uri);
     return (treeNode?.children || []).map((item) => ({
       ...item,
-      path: relativePath + PathSeperator + item.path,
+      path: relativePath + PathSeparator + item.path,
     }));
   }
 
   private getTargetTreeNode(uri: URI) {
-    const relativePath = this.getRelativePath(uri)
+    const relativePath = this.getRelativePath(uri);
     if (!relativePath) {
       // 根目录
       return { children: this.fileTree, path: relativePath };
     }
-    const paths = relativePath.split(PathSeperator);
+    const paths = relativePath.split(PathSeparator);
     let targetNode: { path: string; content?: string; children: HttpTreeList } | undefined;
     let nodeList = this.fileTree;
     paths.forEach((path) => {
@@ -158,7 +158,7 @@ export class HttpFileService extends AbstractHttpFileService {
   async updateFile(uri: Uri, content: string, options: { encoding?: string; newUri?: Uri }): Promise<void> {
     const _uri = new URI(uri);
     // TODO: sync update to remote logic
-    const relativePath = this.getRelativePath(_uri)
+    const relativePath = this.getRelativePath(_uri);
     if (options.newUri) {
       delete this.fileMap[relativePath];
       // TODO: 只更新对应节点，可以有更好的性能

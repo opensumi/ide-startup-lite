@@ -7,20 +7,16 @@ import {
   StaticResourceService,
 } from '@opensumi/ide-static-resource/lib/browser/static.definition';
 
-import { WalkThroughSnipppetDocumentProvider } from './fs-provider';
+import { WalkThroughSnippetDocumentProvider } from './fs-provider';
 
 @Domain(StaticResourceContribution, BrowserEditorContribution)
-export class FsProviderContribution
-  implements StaticResourceContribution, BrowserEditorContribution
-{
+export class FsProviderContribution implements StaticResourceContribution, BrowserEditorContribution {
+  @Autowired(WalkThroughSnippetDocumentProvider)
+  private readonly walkThroughSnippetDocumentProvider: WalkThroughSnippetDocumentProvider;
 
-  @Autowired(WalkThroughSnipppetDocumentProvider)
-  private readonly walkThroughSnipppetDocumentProvider: WalkThroughSnipppetDocumentProvider;
-
-  registerStaticResolver(service: StaticResourceService): void {
-  }
+  registerStaticResolver(service: StaticResourceService): void {}
 
   registerEditorDocumentModelContentProvider(registry: IEditorDocumentModelContentRegistry) {
-    registry.registerEditorDocumentModelContentProvider(this.walkThroughSnipppetDocumentProvider);
+    registry.registerEditorDocumentModelContentProvider(this.walkThroughSnippetDocumentProvider);
   }
 }

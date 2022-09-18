@@ -12,16 +12,16 @@ import { BrowserCommonServer } from './overrides/browser-common-server';
 import { MockFileSearch } from './overrides/mock-file-search';
 import { MockLogServiceForClient } from './overrides/mock-logger';
 import { MockCredentialService } from './overrides/mock-credential.service';
-import { FsProviderContribution } from './file-system-provider/index.contribution'
-import { WalkThroughSnipppetDocumentProvider } from './file-system-provider/fs-provider';
+import { FsProviderContribution } from './file-system-provider/index.contribution';
+import { WalkThroughSnippetDocumentProvider } from './file-system-provider/fs-provider';
 import { MenuOverrideContribution } from './overrides/menu.contribution';
 
 @Injectable()
 export class WebLiteModule extends BrowserModule {
   providers: Provider[] = [
     {
-      token: WalkThroughSnipppetDocumentProvider,
-      useClass: WalkThroughSnipppetDocumentProvider,
+      token: WalkThroughSnippetDocumentProvider,
+      useClass: WalkThroughSnippetDocumentProvider,
     },
     {
       token: CommonServerPath,
