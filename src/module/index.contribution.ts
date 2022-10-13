@@ -40,7 +40,16 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
   }
 
   registerMenus(registry: IMenuRegistry) {
+    const menuId = 'LiteMenu';
     registry.removeMenubarItem(MenuId.MenubarTerminalMenu);
+    registry.registerMenubarItem(menuId, {
+      label: 'Lite',
+      order: 0
+    });
+    registry.registerMenuItem(menuId, {
+      command: REFRESH.id,
+      label: 'Refresh',
+    });
   }
 
   registerToolbarItems(registry: ToolbarRegistry) {
@@ -76,5 +85,4 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
       }
     });
   }
-
 }
