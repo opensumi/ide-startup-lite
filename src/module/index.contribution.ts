@@ -41,6 +41,10 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
 
   registerMenus(registry: IMenuRegistry) {
     registry.removeMenubarItem(MenuId.MenubarTerminalMenu);
+    registry.registerMenubarItem('lite-', {
+      label: 'Lite',
+      order: 0
+    });
   }
 
   registerToolbarItems(registry: ToolbarRegistry) {
@@ -76,5 +80,4 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
       }
     });
   }
-
 }

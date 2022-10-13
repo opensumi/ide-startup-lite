@@ -9,7 +9,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 const dir = path.resolve('.');
-const port = 8080;
+const port = 8081;
 
 const isDevelopment =
   process.env['NODE_ENV'] === undefined ||

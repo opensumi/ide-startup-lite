@@ -28,6 +28,7 @@ import { OutputModule } from '@opensumi/ide-output/lib/browser';
 import { OutlineModule } from '@opensumi/ide-outline/lib/browser';
 
 import { BrowserFileSchemeModule } from '../web-lite/overrides/browser-file-scheme';
+import { SampleModule } from './module';
 
 export const CommonBrowserModules: ConstructorOf<BrowserModule>[] = [
   FileServiceClientModule,
@@ -59,4 +60,5 @@ export const CommonBrowserModules: ConstructorOf<BrowserModule>[] = [
   // browser custom modules
   BrowserFileSchemeModule,
   ExtensionModule,
+  SampleModule
 ];
