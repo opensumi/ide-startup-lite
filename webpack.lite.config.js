@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const path = require('path');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 const dir = path.resolve('.');
@@ -41,7 +42,6 @@ module.exports = {
       }),
     ],
     alias: {
-      lodash: 'lodash-es',
       fs: 'browserfs/dist/shims/fs.js',
       buffer: 'browserfs/dist/shims/buffer.js',
       path: 'browserfs/dist/shims/path.js',
@@ -181,6 +181,7 @@ module.exports = {
       },
       clearConsole: true,
     }),
+    (isDevelopment ? new BundleAnalyzerPlugin() : undefined),
   ],
   devServer: {
     contentBase: dir + '/dist',

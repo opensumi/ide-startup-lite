@@ -1,20 +1,20 @@
 import { Autowired } from '@opensumi/di';
-import { Domain, ComponentContribution, ComponentRegistry, getIcon, CommandContribution, CommandRegistry, ClientAppContribution, Command, URI, CommandService, TabBarToolbarContribution, IToolbarRegistry, ToolbarRegistry } from '@opensumi/ide-core-browser';
+import { Domain, getIcon, CommandContribution, CommandRegistry, ClientAppContribution, Command, URI, CommandService, TabBarToolbarContribution, IToolbarRegistry, ToolbarRegistry } from '@opensumi/ide-core-browser';
 import { IStatusBarService } from '@opensumi/ide-status-bar';
 import { IWorkspaceService } from '@opensumi/ide-workspace';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { IMainLayoutService } from '@opensumi/ide-main-layout';
-import { TestView, TestView2 } from './index.view';
+import { TestView } from './index.view';
 import { IMenuRegistry, MenuContribution, MenuId } from '@opensumi/ide-core-browser/lib/menu/next';
 
 const REFRESH: Command = {
   id: 'test.refresh',
   iconClass: getIcon('refresh'),
-  label: '刷新视图',
+  label: 'Refresh',
 };
 
-@Domain(ClientAppContribution, ComponentContribution, CommandContribution, TabBarToolbarContribution, MenuContribution)
-export class SampleContribution implements ClientAppContribution, ComponentContribution, CommandContribution, TabBarToolbarContribution, MenuContribution {
+@Domain(ClientAppContribution, CommandContribution, TabBarToolbarContribution, MenuContribution)
+export class SampleContribution implements ClientAppContribution, CommandContribution, TabBarToolbarContribution, MenuContribution {
 
   @Autowired(IStatusBarService)
   statusBarService: IStatusBarService;
@@ -33,7 +33,7 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
     this.layoutService.collectViewComponent({
       id: 'test-accordion-view',
       name: 'HelloView',
-      component: TestView2,
+      component: TestView,
       priority: 1,
       weight: 2,
     }, 'explorer', {name: 'OpenSumi'})
@@ -57,24 +57,8 @@ export class SampleContribution implements ClientAppContribution, ComponentContr
       id: 'refresh_view',
       command: REFRESH.id,
       iconClass: getIcon('refresh'),
-      label: '刷新视图',
+      label: 'Refresh',
       viewId: 'test',
-    });
-  }
-
-  // 注册视图和token的绑定关系
-  registerComponent(registry: ComponentRegistry) {
-    registry.register('test-view', [
-      {
-        id: 'test',
-        component: TestView,
-        name: '预览视图',
-      },
-    ], {
-      containerId: 'test',
-      title: '测试视图',
-      priority: 6,
-      iconClass: getIcon('browser-preview'),
     });
   }
 

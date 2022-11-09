@@ -3,7 +3,7 @@ import { BrowserModule, LogServiceForClientPath } from '@opensumi/ide-core-brows
 import { CommonServerPath, KeytarServicePath } from '@opensumi/ide-core-common';
 import { ExtensionNodeServiceServerPath } from '@opensumi/ide-extension/lib/common';
 import { FileSearchServicePath } from '@opensumi/ide-file-search/lib/common';
-import { DebugPreferences } from '@opensumi/ide-debug/lib/browser';
+import { DebugPreferences } from '@opensumi/ide-debug/lib/browser/debug-preferences';
 
 import { ExtensionClientService } from './extension';
 import { FileProviderContribution } from './file-provider/index.contribution';

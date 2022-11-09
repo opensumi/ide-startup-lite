@@ -1,6 +1,5 @@
 import '@opensumi/ide-i18n';
 import '@opensumi/ide-core-browser/lib/style/index.less';
-import '@opensumi/antd-theme/lib/index.css';
 import * as React from 'react';
 import { SlotLocation } from '@opensumi/ide-core-browser';
 
@@ -48,10 +47,10 @@ const hash =
     ? location.hash.split('#')[1]
     : DEFAULT_URL;
 
-const { platform, owner, name, branch } = parseUri(hash);
+const { platform, owner, name } = parseUri(hash);
 
 renderApp({
-  modules: [WebLiteModule, ...CommonBrowserModules, CodeAPIModule],
+  modules: [...CommonBrowserModules, WebLiteModule, CodeAPIModule],
   layoutConfig,
   useCdnIcon: true,
   noExtHost: true,

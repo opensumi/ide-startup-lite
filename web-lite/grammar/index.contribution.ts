@@ -13,6 +13,7 @@ const languages = [
   'json',
   'markdown',
   'typescript',
+  'java',
 ];
 
 @Domain(ClientAppContribution)
