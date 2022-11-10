@@ -198,8 +198,7 @@ module.exports = {
       },
       clearConsole: true,
     }),
-    // (isDevelopment ? new BundleAnalyzerPlugin() : []),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
   devServer: {
     contentBase: dir + '/dist',
