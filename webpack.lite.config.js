@@ -135,7 +135,7 @@ module.exports = {
             options: {
               name: '[name].[ext]',
               outputPath: 'fonts/',
-              publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8080/fonts"
+              publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8081/fonts"
             },
           },
         ],
@@ -150,7 +150,24 @@ module.exports = {
   },
   optimization: {
     nodeEnv: process.env.NODE_ENV,
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    minimizer: [
+      new TerserJSPlugin({
+        minify: TerserJSPlugin.esbuildMinify,
+        terserOptions: {
+          drop: ['debugger'],
+          format: 'cjs',
+          minify: true,
+          treeShaking: true,
+          keepNames: false,
+          compress: {
+            keep_classnames: true,
+          },
+          keep_classnames: true,
+          target: 'es2020',
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -181,7 +198,8 @@ module.exports = {
       },
       clearConsole: true,
     }),
-    (isDevelopment ? new BundleAnalyzerPlugin() : undefined),
+    // (isDevelopment ? new BundleAnalyzerPlugin() : []),
+    new BundleAnalyzerPlugin(),
   ],
   devServer: {
     contentBase: dir + '/dist',

@@ -39,8 +39,8 @@ const layoutConfig = {
   },
 };
 
-// 请求 github 仓库地址 在hash上添加地址即可 如 http://0.0.0.0:8080/#https://github.com/opensumi/core
-// 支持分支及tag  如 http://0.0.0.0:8080/#https://github.com/opensumi/core/tree/v2.15.0
+// 请求 github 仓库地址 在hash上添加地址即可 如 http://0.0.0.0:8081/#https://github.com/opensumi/core
+// 支持分支及tag  如 http://0.0.0.0:8081/#https://github.com/opensumi/core/tree/v2.15.0
 
 const hash =
   location.hash.startsWith('#') && location.hash.indexOf('github') > -1

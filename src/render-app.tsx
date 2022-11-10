@@ -13,7 +13,7 @@ export async function renderApp(opts: IClientAppOpts) {
   opts.injector = injector;
 
   opts.workspaceDir = opts.workspaceDir || process.env.WORKSPACE_DIR;
-  opts.extWorkerHost = opts.extWorkerHost || process.env.EXTENSION_WORKER_HOST || 'http://localhost:8080/worker.host.js';
+  opts.extWorkerHost = opts.extWorkerHost || process.env.EXTENSION_WORKER_HOST || 'http://localhost:8081/worker.host.js';
   opts.webviewEndpoint = opts.webviewEndpoint || `http://localhost:50998`;
 
   // TODO: 框架在新版本加了不允许覆盖file协议的限制，这里通过DI覆盖，后续需要确认下是否要必要加这个限制

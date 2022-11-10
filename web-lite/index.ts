@@ -15,6 +15,8 @@ import { MockCredentialService } from './overrides/mock-credential.service';
 import { FsProviderContribution } from './file-system-provider/index.contribution';
 import { WalkThroughSnippetDocumentProvider } from './file-system-provider/fs-provider';
 import { MenuOverrideContribution } from './overrides/menu.contribution';
+import { IDebugService } from '@opensumi/ide-debug';
+import { ITerminalProfileService } from '@opensumi/ide-terminal-next';
 
 @Injectable()
 export class WebLiteModule extends BrowserModule {
@@ -45,6 +47,14 @@ export class WebLiteModule extends BrowserModule {
     },
     {
       token: DebugPreferences,
+      useValue: {},
+    },
+    {
+      token: IDebugService,
+      useValue: {},
+    },
+    {
+      token: ITerminalProfileService,
       useValue: {},
     },
     FileProviderContribution,
