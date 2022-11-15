@@ -16,7 +16,7 @@ $ yarn                 # 安装依赖
 $ yarn start         # 启动
 ```
 
-启动后访问 8080 端口即可预览 IDE
+启动后访问 8081 端口即可预览 IDE
 
 [![截图](https://img.alicdn.com/imgextra/i4/O1CN01W0RcLw1Mb3mZBWLjS_!!6000000001452-2-tps-3104-1974.png)](https://opensumi.github.io/ide-startup-lite/)
 
@@ -25,7 +25,7 @@ $ yarn start         # 启动
 请求 GitHub 仓库地址在 hash 上添加地址即可, 如:
 
 ```
-http://0.0.0.0:8080#https://github.com/opensumi/core
+http://0.0.0.0:8081#https://github.com/opensumi/core
 ```
 
 ### 打开对应分支或 Tag 仓库
@@ -33,7 +33,7 @@ http://0.0.0.0:8080#https://github.com/opensumi/core
 支持打开具体分支及 Tag 版本仓库，如：
 
 ```
-http://0.0.0.0:8080#https://github.com/opensumi/core/tree/v2.15.0
+http://0.0.0.0:8081#https://github.com/opensumi/core/tree/v2.15.0
 ```
 
 ### 在线预览

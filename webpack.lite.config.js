@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const path = require('path');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 const dir = path.resolve('.');
@@ -41,7 +42,6 @@ module.exports = {
       }),
     ],
     alias: {
-      lodash: 'lodash-es',
       fs: 'browserfs/dist/shims/fs.js',
       buffer: 'browserfs/dist/shims/buffer.js',
       path: 'browserfs/dist/shims/path.js',
@@ -135,7 +135,7 @@ module.exports = {
             options: {
               name: '[name].[ext]',
               outputPath: 'fonts/',
-              publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8080/fonts"
+              publicPath: 'https://g.alicdn.com/tao-ide/ide-front/0.0.8/fonts', //"http://localhost:8081/fonts"
             },
           },
         ],
@@ -150,7 +150,24 @@ module.exports = {
   },
   optimization: {
     nodeEnv: process.env.NODE_ENV,
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    minimizer: [
+      new TerserJSPlugin({
+        minify: TerserJSPlugin.esbuildMinify,
+        terserOptions: {
+          drop: ['debugger'],
+          format: 'cjs',
+          minify: true,
+          treeShaking: true,
+          keepNames: false,
+          compress: {
+            keep_classnames: true,
+          },
+          keep_classnames: true,
+          target: 'es2020',
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -181,6 +198,7 @@ module.exports = {
       },
       clearConsole: true,
     }),
+    // new BundleAnalyzerPlugin(),
   ],
   devServer: {
     contentBase: dir + '/dist',

@@ -1,6 +1,5 @@
 import '@opensumi/ide-i18n';
 import '@opensumi/ide-core-browser/lib/style/index.less';
-import '@opensumi/antd-theme/lib/index.css';
 import * as React from 'react';
 import { SlotLocation } from '@opensumi/ide-core-browser';
 
@@ -40,18 +39,18 @@ const layoutConfig = {
   },
 };
 
-// 请求 github 仓库地址 在hash上添加地址即可 如 http://0.0.0.0:8080/#https://github.com/opensumi/core
-// 支持分支及tag  如 http://0.0.0.0:8080/#https://github.com/opensumi/core/tree/v2.15.0
+// 请求 github 仓库地址 在hash上添加地址即可 如 http://0.0.0.0:8081/#https://github.com/opensumi/core
+// 支持分支及tag  如 http://0.0.0.0:8081/#https://github.com/opensumi/core/tree/v2.15.0
 
 const hash =
   location.hash.startsWith('#') && location.hash.indexOf('github') > -1
     ? location.hash.split('#')[1]
     : DEFAULT_URL;
 
-const { platform, owner, name, branch } = parseUri(hash);
+const { platform, owner, name } = parseUri(hash);
 
 renderApp({
-  modules: [WebLiteModule, ...CommonBrowserModules, CodeAPIModule],
+  modules: [...CommonBrowserModules, WebLiteModule, CodeAPIModule],
   layoutConfig,
   useCdnIcon: true,
   noExtHost: true,
