@@ -105,7 +105,6 @@ export class GitHubAPIService implements ICodeAPIService {
 
   private showGithubView() {
     const handler = this.layoutService.getTabbarHandler(CodePlatform.github);
-    console.log(handler, '==>')
     if (!handler?.isActivated()) {
       handler?.activate();
     }

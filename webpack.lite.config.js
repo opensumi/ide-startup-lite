@@ -166,7 +166,9 @@ module.exports = {
           target: 'es2020',
         },
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new OptimizeCSSAssetsPlugin({
+        removeComments: true,
+      }),
     ],
   },
   plugins: [
