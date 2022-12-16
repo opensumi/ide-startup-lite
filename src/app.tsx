@@ -59,7 +59,7 @@ renderApp({
     'general.icon': 'vsicons-slim',
     'editor.quickSuggestionsDelay': 100,
     'editor.quickSuggestionsMaxCount': 50,
-    'editor.scrollBeyondLastLine': false
+    'editor.scrollBeyondLastLine': false,
   },
   workspaceDir: `/${platform}/${owner}/${name}`,
   extraContextProvider: (props) => (

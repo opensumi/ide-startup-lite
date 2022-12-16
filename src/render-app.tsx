@@ -1,5 +1,6 @@
 import { Injector } from '@opensumi/di';
-import { ClientApp, DEFAULT_WORKSPACE_STORAGE_DIR_NAME, IClientAppOpts, isWindows, StoragePaths } from '@opensumi/ide-core-browser';
+import { IClientAppOpts, isWindows, StoragePaths } from '@opensumi/ide-core-browser';
+import { ClientApp } from '@opensumi/ide-core-browser/lib/bootstrap/app';
 import { ensureDir } from '@opensumi/ide-core-common/lib/browser-fs/ensure-dir';
 import { IDiskFileProvider } from '@opensumi/ide-file-service/lib/common';
 import * as BrowserFS from 'browserfs';
@@ -67,10 +68,10 @@ async function setupAppDataDir(workspaceDir: string) {
       BROWSER_HOME_DIR.path.join(
         StoragePaths.WINDOWS_APP_DATA_DIR,
         StoragePaths.WINDOWS_ROAMING_DIR,
-        DEFAULT_WORKSPACE_STORAGE_DIR_NAME,
+        StoragePaths.DEFAULT_STORAGE_DIR_NAME,
       ).toString(),
     );
   } else {
-    await ensureDir(BROWSER_HOME_DIR.path.join(DEFAULT_WORKSPACE_STORAGE_DIR_NAME).toString());
+    await ensureDir(BROWSER_HOME_DIR.path.join(StoragePaths.DEFAULT_STORAGE_DIR_NAME).toString());
   }
 }
