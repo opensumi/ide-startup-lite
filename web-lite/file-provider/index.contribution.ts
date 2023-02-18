@@ -7,7 +7,7 @@ import {
   Uri,
 } from '@opensumi/ide-core-browser';
 import { Path } from '@opensumi/ide-utils/lib/path';
-import { BrowserFsProvider, AbstractHttpFileService } from './browser-fs-provider';
+import { AbstractHttpFileService } from './browser-fs-provider';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { FileServiceClient } from '@opensumi/ide-file-service/lib/browser/file-service-client';
 import { StaticResourceContribution, StaticResourceService } from '@opensumi/ide-static-resource/lib/browser/static.definition';
@@ -17,8 +17,9 @@ import { ExtFsProvider } from './ext-fs-provider';
 import { HttpFileService } from './http-file.service';
 
 const EXPRESS_SERVER_PATH = window.location.href;
+const EXTENSION_PROVIDER_SCHEME = 'ext';
 
-// file 文件资源 远程读取
+// 远程读取文件资源 
 @Domain(StaticResourceContribution, FsProviderContribution)
 export class FileProviderContribution implements StaticResourceContribution, FsProviderContribution {
 
@@ -35,14 +36,14 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
   private readonly workspaceService: IWorkspaceService;
 
   @Autowired()
-  private readonly ktExtFsProvider: ExtFsProvider;
+  private readonly extFsProvider: ExtFsProvider;
 
   async onFileServiceReady() {
     await this.httpImpl.initWorkspace(Uri.file(this.appConfig.workspaceDir!));
   }
 
   registerProvider(registry: IFileServiceClient) {
-    registry.registerProvider('ext', this.ktExtFsProvider);
+    registry.registerProvider(EXTENSION_PROVIDER_SCHEME, this.extFsProvider);
   }
 
   registerStaticResolver(service: StaticResourceService): void {
@@ -69,7 +70,7 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
     });
     // 插件静态资源路径
     service.registerStaticResourceProvider({
-      scheme: 'ext',
+      scheme: EXTENSION_PROVIDER_SCHEME,
       resolveStaticResource: (uri: URI) => {
         // ext 协议统一走 scheme 头转换为 https
         return uri.withScheme('https');

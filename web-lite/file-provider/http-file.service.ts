@@ -1,5 +1,5 @@
 import { Autowired, Injectable } from '@opensumi/di';
-import { URI, Uri, AppConfig } from '@opensumi/ide-core-browser';
+import { URI, Uri, AppConfig, Deferred } from '@opensumi/ide-core-browser';
 
 import { ICodeAPIProvider, ICodePlatform, IRepositoryModel, CodePlatform, TreeEntry } from '../code-api/common/types';
 import { DEFAULT_URL, parseUri } from '../utils';
@@ -26,8 +26,10 @@ export class HttpFileService extends AbstractHttpFileService {
 
   public _repo: IRepositoryModel;
 
-  constructor() {
-    super();
+  private _whenReady: Deferred<void> = new Deferred();
+
+  get whenReady() {
+    return this._whenReady.promise;
   }
 
   async initWorkspace(uri: Uri): Promise<{ [filename: string]: TreeEntry }> {
@@ -80,6 +82,7 @@ export class HttpFileService extends AbstractHttpFileService {
     });
     this.fileMap = map;
     this.fileTree = this.pathToTree(this.fileMap);
+    this._whenReady.resolve();
     return this.fileMap;
   }
 
