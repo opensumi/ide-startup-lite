@@ -67,9 +67,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
   protected readonly onDidChangeFileEmitter = new Emitter<FileChangeEvent>();
   onDidChangeFile: Event<FileChangeEvent> = this.onDidChangeFileEmitter.event;
 
-  constructor(private httpFileService: AbstractHttpFileService, private options: BrowserFsProviderOptions) {
-
-  }
+  constructor(private httpFileService: AbstractHttpFileService, private options: BrowserFsProviderOptions) {}
 
   capabilities: FileSystemProviderCapabilities = 2048;
   onDidChangeCapabilities: Event<void> = new Emitter<void>().event;
@@ -97,6 +95,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
         });
     });
   }
+
   async readDirectory(uri: Uri): Promise<[string, FileType][]> {
     const result: [string, FileType][] = [];
     try {
@@ -111,6 +110,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
       return result;
     }
   }
+
   async createDirectory(uri: Uri): Promise<FileStat> {
     const _uri = new URI(uri);
     const stat = await this.doGetStat(_uri, 0);
@@ -127,6 +127,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
       throw err;
     }
   }
+
   async readFile(uri: Uri): Promise<Uint8Array> {
     const _uri = new URI(uri);
     let content: string | undefined;
@@ -140,6 +141,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
     }
     return BinaryBuffer.fromString(content!).buffer;
   }
+
   async writeFile(uri: Uri, buffer: Uint8Array, options: { create: boolean; overwrite: boolean; isInit?: boolean }): Promise<void | FileStat> {
     const content = BinaryBuffer.wrap(buffer).toString();
     this.checkCapability();
@@ -175,6 +177,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
       type: FileChangeType.UPDATED,
     }]);
   }
+
   // FIXME: 支持删除目录
   async delete(uri: Uri, options: { recursive: boolean; moveToTrash?: boolean | undefined; }): Promise<void> {
     this.checkCapability();
@@ -187,6 +190,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
       type: FileChangeType.DELETED,
     }]);
   }
+
   async rename(oldUri: Uri, newUri: Uri, options: { overwrite: boolean; }): Promise<void | FileStat> {
     this.checkCapability();
     const content = await this.readFile(oldUri);
@@ -203,6 +207,7 @@ export class BrowserFsProvider implements IDiskFileProvider {
       type: FileChangeType.ADDED,
     }]);
   }
+
   async access(uri: Uri): Promise<boolean> {
     const _uri = new URI(uri);
     try {
@@ -357,6 +362,8 @@ export class BrowserFsProvider implements IDiskFileProvider {
   }
 
   protected async ensureNodeFetched(uri: URI) {
+    // waiting for HttpFileService ready
+    await this.httpFileService.whenReady;
     const childNodes = await this.httpFileService.readDir(uri.codeUri);
     const ensureNodes: Promise<FileStat>[] = [];
     for (const node of childNodes) {
@@ -443,4 +450,5 @@ export abstract class AbstractHttpFileService {
   deleteFile(uri: Uri, options: { recursive?: boolean }): Promise<void> {
     throw new Error('deleteFile method not implemented');
   }
+  whenReady: Promise<void>;
 }
