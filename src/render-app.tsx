@@ -8,6 +8,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AbstractHttpFileService, BrowserFsProvider, BROWSER_HOME_DIR } from '../web-lite/file-provider/browser-fs-provider';
 import { HttpFileService } from '../web-lite/file-provider/http-file.service';
+import { WSChannelHandler } from '@opensumi/ide-connection/lib/browser';
 
 export async function renderApp(opts: IClientAppOpts) {
   const injector = new Injector();
@@ -28,6 +29,12 @@ export async function renderApp(opts: IClientAppOpts) {
     useValue: new BrowserFsProvider(httpFs, { rootFolder: opts.workspaceDir! }),
   });
 
+  // 防止 onStop报错 
+  injector.addProviders({
+    token: WSChannelHandler,
+    useValue: { clientId: 'web-lite' },
+  });
+  
   BrowserFS.configure({
     fs: "FolderAdapter",
     options: {

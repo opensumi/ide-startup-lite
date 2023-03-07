@@ -11,6 +11,16 @@ const extensionList = [
   { id: 'alex-ext-public.css-language-features-worker', version: '1.53.0-patch.3' },
   { id: 'alex-ext-public.vsicons-slim', version: '1.0.5' },
   { id: 'worker-public.ide-ext-theme', version: '2.5.2' },
+  { id: 'alex-ext-public.anycode', version: '0.0.67' },
+  { id: 'alex-ext-public.anycode-typescript', version: '0.0.5' },
+  { id: 'alex-ext-public.anycode-c-sharp', version: '0.0.5' },
+  { id: 'alex-ext-public.anycode-cpp', version: '0.0.5' },
+  { id: 'alex-ext-public.anycode-go', version: '0.0.5' },
+  { id: 'alex-ext-public.anycode-java', version: '0.0.5' },
+  { id: 'alex-ext-public.anycode-php', version: '0.0.6' },
+  { id: 'alex-ext-public.anycode-python', version: '0.0.5' },
+  { id: 'alex-ext-public.anycode-rust', version: '0.0.5' },
+
 ];
 
 export const getExtensions: () => Promise<IExtensionMetaData[]> = () => {
@@ -20,6 +30,9 @@ export const getExtensions: () => Promise<IExtensionMetaData[]> = () => {
 
 @Injectable()
 export class ExtensionClientService implements IExtensionNodeClientService {
+  getOpenVSXRegistry(): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
   restartExtProcessByClient(): void {
     throw new Error('Method not implemented.');
   }

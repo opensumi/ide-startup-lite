@@ -46,7 +46,7 @@ export function mergeContributes(
 }
 
 async function tryFetchPackageNlsJson(extensionId: string, version: string) {
-  const extPath = `gw.alipayobjects.com/os/marketplace/assets/${extensionId}/v${version}/extension/`;
+  const extPath = `gw.alipayobjects.com/os/marketplace/extension/${extensionId}-${version}/`;
   const defaultPackageJSON = await fetch(`https://${extPath}package.nls.json`)
     .then((res) => res.json())
     .catch((err) => undefined);
@@ -54,7 +54,8 @@ async function tryFetchPackageNlsJson(extensionId: string, version: string) {
 }
 
 export async function getExtension(extensionId: string, version: string): Promise<IExtensionMetaData | undefined> {
-  const extPath = `gw.alipayobjects.com/os/marketplace/assets/${extensionId}/v${version}/extension/`;
+  const [, extName] = extensionId.split('.')
+  const extPath = `gw.alipayobjects.com/os/marketplace/extension/${extensionId}-${version}/`;
   const packageJSON = await fetch(`https://${extPath}package.json`)
     .then((res) => res.json());
   // merge for `kaitianContributes` and `contributes`
@@ -73,7 +74,7 @@ export async function getExtension(extensionId: string, version: string): Promis
     extendConfig: {},
     path: extensionPath,
     packageJSON,
-    defaultPkgNlsJSON: await tryFetchPackageNlsJson(extensionId, version),
+    defaultPkgNlsJSON: !extName.startsWith('anycode') && await tryFetchPackageNlsJson(extensionId, version),
     packageNlsJSON: undefined,
     realPath: extensionPath,
     uri: Uri.parse(extensionPath),
