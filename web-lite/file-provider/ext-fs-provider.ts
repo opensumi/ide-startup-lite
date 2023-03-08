@@ -22,6 +22,7 @@ export class ExtFsProvider implements FileSystemProvider {
     return Promise.resolve({
       uri: uri.toString(),
       lastModification: this.now,
+      isDirectory: false,
     } as FileStat);
   }
 

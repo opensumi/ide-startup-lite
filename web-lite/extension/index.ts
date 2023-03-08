@@ -11,6 +11,7 @@ const extensionList = [
   { id: 'alex-ext-public.css-language-features-worker', version: '1.53.0-patch.3' },
   { id: 'alex-ext-public.vsicons-slim', version: '1.0.5' },
   { id: 'worker-public.ide-ext-theme', version: '2.5.2' },
+  // vscode anycode https://github.com/microsoft/vscode-anycode
   { id: 'alex-ext-public.anycode', version: '0.0.67' },
   { id: 'alex-ext-public.anycode-typescript', version: '0.0.5' },
   { id: 'alex-ext-public.anycode-c-sharp', version: '0.0.5' },
