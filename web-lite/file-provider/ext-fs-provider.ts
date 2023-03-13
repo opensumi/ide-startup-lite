@@ -15,9 +15,15 @@ export class ExtFsProvider implements FileSystemProvider {
   watch(uri: Uri, options: { recursive: boolean; excludes: string[]; }): number {
     throw new Error('Method not implemented.');
   }
+  private readonly now = Date.now();
+
 
   stat(uri: Uri): Promise<FileStat> {
-    throw new Error('Method not implemented.');
+    return Promise.resolve({
+      uri: uri.toString(),
+      lastModification: this.now,
+      isDirectory: false,
+    } as FileStat);
   }
 
   readDirectory(uri: Uri): [string, FileType][] | Promise<[string, FileType][]> {

@@ -18,6 +18,8 @@ import { HttpFileService } from './http-file.service';
 
 const EXPRESS_SERVER_PATH = window.location.href;
 const EXTENSION_PROVIDER_SCHEME = 'ext';
+const HTTPS_PROVIDER_SCHEME = 'https';
+const HTTP_PROVIDER_SCHEME = 'http';
 
 // 远程读取文件资源 
 @Domain(StaticResourceContribution, FsProviderContribution)
@@ -44,6 +46,10 @@ export class FileProviderContribution implements StaticResourceContribution, FsP
 
   registerProvider(registry: IFileServiceClient) {
     registry.registerProvider(EXTENSION_PROVIDER_SCHEME, this.extFsProvider);
+    // anycode 插件读取
+    registry.registerProvider(HTTPS_PROVIDER_SCHEME, this.extFsProvider);
+    registry.registerProvider(HTTP_PROVIDER_SCHEME, this.extFsProvider);
+
   }
 
   registerStaticResolver(service: StaticResourceService): void {
