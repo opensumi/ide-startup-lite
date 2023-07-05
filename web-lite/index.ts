@@ -17,6 +17,8 @@ import { WalkThroughSnippetDocumentProvider } from './file-system-provider/fs-pr
 import { MenuOverrideContribution } from './overrides/menu.contribution';
 import { IDebugService } from '@opensumi/ide-debug';
 import { ITerminalProfileService } from '@opensumi/ide-terminal-next';
+import { MonacoSnippetSuggestProviderOverride } from './overrides/monaco-snippet-suggest-provider';
+import { MonacoSnippetSuggestProvider } from '@opensumi/ide-monaco/lib/browser/monaco-snippet-suggest-provider';
 
 @Injectable()
 export class WebLiteModule extends BrowserModule {
@@ -61,5 +63,10 @@ export class WebLiteModule extends BrowserModule {
     FsProviderContribution,
     TextmateLanguageGrammarContribution,
     MenuOverrideContribution,
+    {
+      token: MonacoSnippetSuggestProvider,
+      useClass: MonacoSnippetSuggestProviderOverride,
+      override: true,
+    },
   ];
 }
