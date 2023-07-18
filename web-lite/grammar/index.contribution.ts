@@ -14,6 +14,7 @@ const languages = [
   'markdown',
   'typescript',
   'java',
+  'sql'
 ];
 
 @Domain(ClientAppContribution)
