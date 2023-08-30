@@ -80,8 +80,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
-    "@types/koa": "^2.0.50",
-    "@types/koa-static": "^4.0.1",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
     "copy-webpack-plugin": "^5.0.3",
@@ -91,9 +89,6 @@
     "file-loader": "^3.0.1",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
-    "koa": "^2.7.0",
-    "koa-router": "^7.4.0",
-    "koa-static": "^5.0.0",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.6.0",
