@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const path = require('path');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 const dir = path.resolve('.');
@@ -122,7 +122,9 @@ module.exports = {
           {
             loader: 'less-loader',
             options: {
-              javascriptEnabled: true,
+              lessOptions: {
+                javascriptEnabled: true,
+              },
             },
           },
         ],
@@ -200,8 +202,8 @@ module.exports = {
       },
       clearConsole: true,
     }),
-    // new BundleAnalyzerPlugin(),
-  ],
+    isDevelopment ? new webpack.ProgressPlugin() : null,
+  ].filter(Boolean),
   devServer: {
     contentBase: dir + '/dist',
     port,
