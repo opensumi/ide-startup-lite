@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ProgressPlugin } = require('webpack');
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: path.join(__dirname, 'webview-host/web-preload.ts'),
@@ -38,10 +40,7 @@ module.exports = {
     ],
   },
   resolveLoader: {
-    modules: [
-      path.join(__dirname, './node_modules'),
-      path.resolve('node_modules'),
-    ],
+    modules: [path.join(__dirname, './node_modules'), path.resolve('node_modules')],
     extensions: ['.ts', '.tsx', '.js', '.json', '.less'],
     mainFields: ['loader', 'main'],
     moduleExtensions: ['-loader'],
@@ -50,5 +49,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'webview-host/webview.html'),
     }),
-  ],
+    isProd ? null : new ProgressPlugin(),
+  ].filter(Boolean),
 };

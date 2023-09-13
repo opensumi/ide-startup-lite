@@ -18,7 +18,6 @@ import { DecorationModule } from '@opensumi/ide-decoration/lib/browser';
 import { PreferencesModule } from '@opensumi/ide-preferences/lib/browser';
 import { MenuBarModule } from '@opensumi/ide-menu-bar/lib/browser';
 import { OverlayModule } from '@opensumi/ide-overlay/lib/browser';
-import { StaticResourceModule } from '@opensumi/ide-static-resource/lib/browser';
 import { WorkspaceEditModule } from '@opensumi/ide-workspace-edit/lib/browser';
 import { KeymapsModule } from '@opensumi/ide-keymaps/lib/browser';
 import { ExtensionModule } from '@opensumi/ide-extension/lib/browser';
@@ -51,7 +50,6 @@ export const CommonBrowserModules: ConstructorOf<BrowserModule>[] = [
   PreferencesModule,
   OpenedEditorModule,
   DecorationModule,
-  StaticResourceModule,
   WorkspaceEditModule,
   CommentsModule,
   WebviewModule,

@@ -5,12 +5,13 @@ import {
   FsProviderContribution,
   AppConfig,
   Uri,
+  StaticResourceContribution,
+  StaticResourceService
 } from '@opensumi/ide-core-browser';
 import { Path } from '@opensumi/ide-utils/lib/path';
 import { AbstractHttpFileService } from './browser-fs-provider';
 import { IFileServiceClient } from '@opensumi/ide-file-service';
 import { FileServiceClient } from '@opensumi/ide-file-service/lib/browser/file-service-client';
-import { StaticResourceContribution, StaticResourceService } from '@opensumi/ide-static-resource/lib/browser/static.definition';
 import { IWorkspaceService } from '@opensumi/ide-workspace';
 
 import { ExtFsProvider } from './ext-fs-provider';

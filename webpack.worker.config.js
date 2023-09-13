@@ -1,9 +1,11 @@
-// tslint:disable:no-var-requires
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
+const { ProgressPlugin } = require('webpack');
 
 const tsConfigPath = path.join(__dirname, './tsconfig.json');
 const distDir = path.join(__dirname, './dist');
+
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: require.resolve('@opensumi/ide-extension/lib/hosted/worker.host-preload.js'),
@@ -19,25 +21,28 @@ module.exports = {
   devtool: 'none',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.less'],
-    plugins: [new TsconfigPathsPlugin({
-      configFile: tsConfigPath,
-    })],
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: tsConfigPath,
+      }),
+    ],
   },
   module: {
     // https://github.com/webpack/webpack/issues/196#issuecomment-397606728
     exprContextCritical: false,
-    rules: [{
-      test: /\.tsx?$/,
-      loader: 'ts-loader',
-      options: {
-        configFile: tsConfigPath,
-        happyPackMode: true,
-        transpileOnly: true,
-        compilerOptions: {
-          target: 'es2017',
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        options: {
+          configFile: tsConfigPath,
+          happyPackMode: true,
+          transpileOnly: true,
+          compilerOptions: {
+            target: 'es2017',
+          },
         },
-      }
-    },
+      },
     ],
   },
   resolveLoader: {
@@ -46,4 +51,5 @@ module.exports = {
     mainFields: ['loader', 'main'],
     moduleExtensions: ['-loader'],
   },
+  plugins: [isProd ? null : new ProgressPlugin()].filter(Boolean),
 };

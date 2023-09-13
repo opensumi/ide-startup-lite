@@ -1,11 +1,7 @@
 import { Autowired } from '@opensumi/di';
-import { Domain, AppConfig } from '@opensumi/ide-core-browser';
+import { Domain, StaticResourceContribution, StaticResourceService } from '@opensumi/ide-core-browser';
 import { IEditorDocumentModelContentRegistry } from '@opensumi/ide-editor/lib/browser/doc-model/types';
 import { BrowserEditorContribution } from '@opensumi/ide-editor/lib/browser/types';
-import {
-  StaticResourceContribution,
-  StaticResourceService,
-} from '@opensumi/ide-static-resource/lib/browser/static.definition';
 
 import { WalkThroughSnippetDocumentProvider } from './fs-provider';
 
