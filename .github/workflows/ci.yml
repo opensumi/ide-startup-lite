@@ -15,5 +15,4 @@ jobs:
       - name: Run CI
         run: |
           yarn
-          yarn compile:ext-worker
           yarn build
